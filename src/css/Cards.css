@@ -1,0 +1,28 @@
+.card-item{
+    width: 25%;
+    height: 55%;
+    margin-top: -330px;
+    position: absolute;
+    padding: 20px;
+    background-color: white;
+    margin-left: -70px;
+}
+
+.card-item-h1{
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.card-item img{
+    max-width: 100%;
+    margin: 10px 0;
+}
+
+.card-item button{
+    /* margin: 10px; */
+    width: 40%;
+    outline: none;
+    border: none;
+    background-color: white;
+}
+

@@ -1,0 +1,125 @@
+.header{
+    display: flex;
+    position: sticky;
+    top: 0;
+}
+
+.nav-left{
+    width: 22%;
+    display: flex;
+    padding: 15px;
+}
+
+.app-logo{
+    text-align: center;
+    justify-content: center;
+    display: block;
+    margin-right: 50px;
+}
+
+.nav-location{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.span-location{
+    font-weight: bolder;
+}
+
+.nav-mid{
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-search{
+    width: 80%;
+    height: 36px;
+    border-radius: 7px;
+    outline: 0;
+    border: 0;
+    padding: 10px;
+    font-size: small;
+}
+
+.searchIcon{
+    padding: 5px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    background-color: #febd69;
+    /* height: 50px; */
+    margin-left: -5px;
+    transform: scale(1.5);
+    outline: 0;
+    border: 0;
+}
+
+.nav-right{
+    display: flex;
+    align-items: center;
+    width: 30%;
+}
+
+.nav-account{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    margin: 0 5px;
+    width: 40%;
+}
+
+.nav-orders{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    width: 30%;
+}
+
+.span-h2{
+    font-size: small;
+}
+
+.span-h1{
+    font-size: medium;
+    font-weight: bold;
+}
+
+.nav-cart{
+    display: flex;
+    flex-direction: row;
+    margin: 0px 20px;
+    align-items: center;
+}
+
+.shoppingCartIcon{
+    width: 38px;
+    /* using tranform to increase the size of this MUI svg icon */
+    transform: scale(1.7);
+    margin: 0 5px;
+}
+
+.span-cart{
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+.header-bottom{
+    background-color: #232f3f;
+    height: 40px;
+    color: white;
+    /* margin-top: -8px; */
+}
+
+.header-bottom ul{
+    display: flex;
+    list-style: none;
+    align-items: center;
+    padding: 5px 20px;
+}
+
+.header-bottom li{
+    margin: 3px 7px;
+    font-size: 15px;
+}
+
