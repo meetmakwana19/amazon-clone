@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/meetmakwana19/amazon-clone/static/css/main.90885f9b.css",
+    "main.js": "/meetmakwana19/amazon-clone/static/js/main.3445c201.js",
+    "static/js/787.02bc6105.chunk.js": "/meetmakwana19/amazon-clone/static/js/787.02bc6105.chunk.js",
+    "index.html": "/meetmakwana19/amazon-clone/index.html",
+    "main.90885f9b.css.map": "/meetmakwana19/amazon-clone/static/css/main.90885f9b.css.map",
+    "main.3445c201.js.map": "/meetmakwana19/amazon-clone/static/js/main.3445c201.js.map",
+    "787.02bc6105.chunk.js.map": "/meetmakwana19/amazon-clone/static/js/787.02bc6105.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.90885f9b.css",
+    "static/js/main.3445c201.js"
+  ]
+}
