@@ -38,9 +38,9 @@ export default function Carousel() {
                 {/* passing props along with the Crads. */}
                 <Cards className="card-item" title="Up to 70% off | Electronics clearance store" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img21/CEPC/Clearance/May21/V238940049_IN_PC_BAU_Edit_Creation_Laptops1x._SY304_CB667377205_.jpg" btnText="See more" />
 
-                <Cards className="card-item" title="Upgrade your home | Amazon Brands &#38; more" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img21/CEPC/Clearance/May21/V238940049_IN_PC_BAU_Edit_Creation_Laptops1x._SY304_CB667377205_.jpg" btnText="Shop now" />
+                <Cards className="card-item" title="Pay your credit card bills on Amazon" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img19/AmazonPay/Boson/Sid/CCBP/DesktopGateway_CategoryCard_379x304_CCBP._SY304_CB413372299_.jpg" btnText="Pay now" />
 
-                <Cards className="card-item" title="Revamp your home in style" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img21/CEPC/Clearance/May21/V238940049_IN_PC_BAU_Edit_Creation_Laptops1x._SY304_CB667377205_.jpg" btnText="Explore all" />
+                <Cards className="card-item" title="Upgrade your home | Amazon Brands & more" cardImg="https://i.ibb.co/7tjmzdR/Screenshot-2022-01-02-180409.png" btnText="Explore all" />
 
                 {/* <Cards className="card-item" title="Sign in for your best experience" btnText="Sign-in for best experience" /> */}
             </div>

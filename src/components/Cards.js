@@ -11,7 +11,7 @@ export default function Cards(props) {
             <div className="card-item">
                 <h1 className="card-item-h1">{props.title}</h1>
                 <img src={props.cardImg} alt="" />
-                <button>{props.btnText}</button>
+                <button type="button">{props.btnText}</button>
             </div>
         </div>
     )

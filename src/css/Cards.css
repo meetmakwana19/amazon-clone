@@ -11,18 +11,22 @@
 .card-item-h1{
     font-size: larger;
     font-weight: bolder;
+    height: 10%;
 }
 
 .card-item img{
     max-width: 100%;
+    max-height: 272px;
     margin: 10px 0;
+    cursor: pointer;
 }
 
 .card-item button{
-    /* margin: 10px; */
     width: 40%;
     outline: none;
     border: none;
     background-color: white;
+    color: #007185;
+    text-align: left;
 }
 
