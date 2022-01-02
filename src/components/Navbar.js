@@ -13,19 +13,19 @@ function Navbar() {
     }
     return (
         <>
-            <div className='header' style={{ backgroundColor: "#121921", height: "60px", color: "white" }}>
+            <div className='header' style={{ backgroundColor: "#121921", height: "3.75rem", color: "white" }}>
 
                 <div className="nav-left">
                     <div className="div-logo" type="button">
-                        <img src="https://www.linkpicture.com/q/amazon-logo.png" alt="" className="app-logo" style={{ width: "100px" }} />
+                        <img src="https://www.linkpicture.com/q/amazon-logo.png" alt="" className="app-logo" style={{ width: "6.25rem" }} />
                     </div>
                     <div className="nav-location" type="button">
                         <div className="nav-icon">
                             <FmdGoodOutlinedIcon />
                         </div>
                         <div className="nav-text">
-                            <span style={{fontSize:"12px"}}>Hello</span>
-                            <span style={{fontSize:"14px"}}className='span-location'>Select your address</span>
+                            <span style={{fontSize:"0.75rem"}}>Hello</span>
+                            <span style={{fontSize:"0.875rem"}}className='span-location'>Select your address</span>
                         </div>
                     </div>
                 </div>
