@@ -13,6 +13,17 @@ export default function Cards(props) {
                 <img src={props.cardImg} alt="" />
                 <button type="button">{props.btnText}</button>
             </div>
+            {/* <div className="card-item">
+                <h1 className="card-item-h1">{props.title}</h1>
+                <img src={props.cardImg} alt="" />
+                <button type="button">{props.btnText}</button>
+                item
+                item
+                item
+            </div>
+            <div className="card-row">
+                item
+            </div> */}
         </div>
     )
 }

@@ -1,0 +1,30 @@
+.section-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.subtotal-box {
+    margin: 15px 0;
+    background-color: white;
+    min-height: 160px;
+    padding: 20px;
+    align-items: center;
+}
+
+#gift-box {
+    margin: 0 5px;
+}
+
+.buy-btn {
+    background-color: #fed813;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    min-height: 30px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.buy-btn:hover {
+    background-color: #fec713;
+}

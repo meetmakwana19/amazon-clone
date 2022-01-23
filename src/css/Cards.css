@@ -1,4 +1,4 @@
-.card-item{
+.card-item {
     width: 25%;
     height: 55%;
     margin-top: -330px;
@@ -8,20 +8,20 @@
     margin-left: -70px;
 }
 
-.card-item-h1{
+.card-item-h1 {
     font-size: larger;
     font-weight: bolder;
     height: 10%;
 }
 
-.card-item img{
+.card-item img {
     max-width: 100%;
     max-height: 272px;
     margin: 10px 0;
     cursor: pointer;
 }
 
-.card-item button{
+.card-item button {
     width: 40%;
     outline: none;
     border: none;
@@ -30,3 +30,10 @@
     text-align: left;
 }
 
+.card-item button:hover {
+    border: none;
+    text-decoration: underline;
+    background-color: white;
+    color: #C7511F;
+    text-align: left;
+}

@@ -1,0 +1,13 @@
+.basket-component {
+    display: flex;
+    flex-direction: row;
+    padding: 25px 0;
+}
+
+.section-left {
+    padding: 20px;
+    background-color: white;
+    min-height: 280px;
+    min-width: 1160px;
+    margin: 0 20px;
+}

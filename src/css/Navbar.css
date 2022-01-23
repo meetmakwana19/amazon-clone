@@ -1,16 +1,20 @@
 .header {
-    display: flex;
+    /* display: flex; */
     position: sticky;
     top: 0;
-    padding: 3px;
+    padding: 0.1875rem;
+    /* z-index helps to keep header on top as sticky */
+    z-index: 100;
+    justify-content: space-evenly;
 }
 
 .nav-left {
-    width: 22%;
+    /* width: 22%; */
     display: flex;
+    justify-content: space-evenly;
 }
 
-.div-logo{
+.div-logo {
     height: 3.125rem;
     padding: 0.9375rem;
     width: 45%;
@@ -18,7 +22,7 @@
     border: 0.0625rem solid #121921;
 }
 
-.div-logo:hover{
+.div-logo:hover {
     border: 0.0625rem solid white;
 }
 
@@ -41,15 +45,16 @@
     padding: 0.625rem;
 }
 
-.nav-location:hover{
+.nav-location:hover {
     border: 0.0625rem solid white;
 }
 
-.nav-icon{
+.nav-icon {
     padding-right: 0.5rem;
     padding-top: 0.25rem;
 }
-.nav-text{
+
+.nav-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -61,9 +66,11 @@
 }
 
 .nav-mid {
-    width: 50%;
+    /* width: 50%; */
     display: flex;
+    flex: 1;
     align-items: center;
+    justify-content: space-evenly;
 }
 
 .dropdown {
@@ -74,12 +81,12 @@
     border: none;
 }
 
-.dropdown-all{
+.dropdown-all {
     margin-right: 0px;
     height: 2.25rem;
     box-shadow: none !important;
     /* giving opposite background-color due to filter: invert*/
-    background-color: #0c0c0c ; 
+    background-color: #0c0c0c;
     color: grey;
     border: 0.1875rem solid #0c0c0c;
     padding-bottom: 0.625rem;
@@ -87,11 +94,9 @@
     left: 0.25rem;
     top: -1rem;
     max-height: 2rem;
-    /* justify-content: center; */
-    /* text-align: center; */
 }
 
-.dropdown-all:hover{
+.dropdown-all:hover {
     /* background-color: #f3f3f3; */
     color: grey;
     background-color: #0c0c0c;
@@ -105,6 +110,7 @@
 
 .nav-search {
     width: 120%;
+    display: flex;
     height: 2.5rem;
     border-radius: 0.25rem;
     outline: 0;
@@ -113,7 +119,7 @@
     font-size: small;
 }
 
-.nav-search:hover{
+.nav-search:hover {
     border: 0.25rem solid #fe9900;
     /* z-index: 2 ; */
 }
@@ -123,14 +129,13 @@
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
     background-color: #febd69;
-    /* height: 36px; */
     margin-left: -1.875rem;
     transform: scale(1.65);
     outline: 0;
-    
+
 }
 
-.searchIcon:hover{
+.searchIcon:hover {
     background-color: #fe9900;
 }
 
@@ -138,10 +143,10 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 30%;
+    /* width: 30%; */
 }
 
-.country{
+.country {
     margin-right: 1.875rem;
     height: 3.125rem;
     width: 15%;
@@ -150,11 +155,11 @@
     border: 0.0625rem solid #121921;
 }
 
-.country:hover{
+.country:hover {
     border: 0.0625rem solid white;
 }
 
-.country img{
+.country img {
     width: 1.875rem;
     border-radius: 0.125rem;
     max-height: 1.5625rem;
@@ -162,7 +167,7 @@
     margin-left: 0.9375rem;
 }
 
-.country-arrow{
+.country-arrow {
     margin-top: 1.0625rem;
 }
 
@@ -177,13 +182,13 @@
     border: 0.0625rem solid #121921;
 }
 
-.account-arrow{
+.account-arrow {
     margin-top: -1.375rem;
     margin-left: 6.875rem;
     margin-right: -0.625rem;
 }
 
-.nav-account:hover{
+.nav-account:hover {
     border: 0.0625rem solid white;
     border-radius: 0.125rem;
 }
@@ -210,7 +215,7 @@
     border: 0.0625rem solid #121921;
 }
 
-.nav-orders:hover{
+.nav-orders:hover {
     border: 0.0625rem solid white;
     border-radius: 0.125rem;
 }
@@ -223,11 +228,15 @@
     height: 3.125rem;
     padding: 0 0.5625rem;
     border: 0.0625rem solid #121921;
+    text-decoration: none;
+    color: white;
 }
 
-.nav-cart:hover{
+.nav-cart:hover {
     border: 0.0625rem solid white;
     border-radius: 0.125rem;
+    text-decoration: none;
+    color: white;
 }
 
 .shoppingCartIcon {
@@ -242,13 +251,26 @@
     font-weight: bold;
 }
 
+.cart-count {
+    position: absolute;
+    margin-left: 10px;
+    margin-bottom: 22px;
+    color: #f08804;
+    font-size: 10px;
+    font-weight: bolder;
+    border: 1px solid #f08804;
+    padding: 0 5px;
+    background-color: #121921;
+    border-radius: 30px;
+}
+
 .header-bottom {
     background-color: #232f3f;
     height: 2.5rem;
     color: white;
 }
 
-.menu-icon{
+.menu-icon {
     margin-top: -0.125rem;
 }
 
@@ -267,8 +289,7 @@
     border: 0.0625rem solid #232f3f;
 }
 
-.header-bottom li:hover{
+.header-bottom li:hover {
     border: 0.0625rem solid white;
-    border-radius: 0.125rem; 
-    /* border: none; */
+    border-radius: 0.125rem;
 }

@@ -16,13 +16,17 @@
     transform: scale(1.5);
 }
 
-.cards{
+.cards {
     display: grid;
     place-items: center;
     grid-template-columns: auto auto auto auto;
     margin-left: -100px;
 }
 
-#card-item{
+#card-item {
     margin: 0 10%;
+    width: 100%;
+    /* z-index -1 means keeping it behind everything else */
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
