@@ -6,8 +6,11 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom'
+import { useStateValue } from '../context/cart-count/CartStateContext';
 
 function Navbar() {
+
+    const [{ cart }] = useStateValue();
 
     const navFunc = () => {
         console.log("Here");
@@ -86,7 +89,7 @@ function Navbar() {
                     <Link className="nav-cart" to="/basket">
                         <ShoppingCartIcon className='shoppingCartIcon' />
                         <span className='span-cart'>Cart</span>
-                        <span className='cart-count'>2</span>
+                        <span className='cart-count'>{cart?.length}</span>
                     </Link>
                 </div>
 

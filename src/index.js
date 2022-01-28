@@ -3,10 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import CartCountState from './context/cart-count/CartCountState';
+import { StateProvider } from './context/cart-count/CartStateContext';
+import reducer, { initialState } from "./state/reducers/reducer"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <CartCountState> */}
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <App />
+    </StateProvider>
+    {/* </CartCountState> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -255,12 +255,13 @@
     position: absolute;
     margin-left: 10px;
     margin-bottom: 22px;
-    color: #f08804;
+    color: white;
     font-size: 10px;
     font-weight: bolder;
-    border: 1px solid #f08804;
+    border: 1px solid #121921;
     padding: 0 5px;
-    background-color: #121921;
+    /* background-color: #121921; */
+    background-color: #f08804;
     border-radius: 30px;
 }
 
