@@ -26,12 +26,11 @@
 }
 
 .productImage {
-    /* max-width: 100%; */
-    /* max-height: 272px; */
     width: auto;
     height: auto;
     margin: 10px 0;
     cursor: pointer;
+    object-fit: contain;
 }
 
 .card-item-name {

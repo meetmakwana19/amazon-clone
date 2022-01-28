@@ -22,14 +22,17 @@ export default function Home() {
 
         // dispatch the data to the global context
         dispatch({
-            type: "ADD_TO_BASKET",
+            type: "ADD_TO_CART",
             item: {
                 productImage_: parsedObject.productImage,
                 name: parsedObject.name,
                 brandName: parsedObject.brandName,
                 sellPrice: parsedObject.sellPrice,
                 mrp: parsedObject.mrp,
-                avgRating: parsedObject.avgRating
+                avgRating: parsedObject.avgRating,
+                currentStock: parsedObject.currentStock,
+                deliveryCharge: parsedObject.deliveryCharge,
+                sellerName: parsedObject.sellerName
             }
         })
     }
