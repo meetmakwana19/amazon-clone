@@ -180,6 +180,8 @@
     margin-left: -1.25rem;
     padding: 0px 0.625rem;
     border: 0.0625rem solid #121921;
+    color: white;
+    text-decoration: none;
 }
 
 .account-arrow {
@@ -191,6 +193,8 @@
 .nav-account:hover {
     border: 0.0625rem solid white;
     border-radius: 0.125rem;
+    color: white;
+    text-decoration: none;
 }
 
 .span-h2 {

@@ -6,7 +6,7 @@ import SubTotal from './SubTotal';
 
 export default function Basket() {
 
-    const [{ cart }, dispatch] = useStateValue();
+    const [{ cart }] = useStateValue();
 
     return (
         <div className='basket-component'>

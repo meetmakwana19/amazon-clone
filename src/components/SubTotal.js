@@ -5,7 +5,7 @@ import "../css/SubTotal.css"
 
 export default function SubTotal() {
 
-    const [{ cart }, dispatch] = useStateValue();
+    const [{ cart }] = useStateValue();
 
     return (
         <div>

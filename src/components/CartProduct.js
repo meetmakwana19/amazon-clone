@@ -4,7 +4,7 @@ import "../css/CartProduct.css"
 
 export default function CartProduct(props) {
 
-    const [{ cart }, dispatch] = useStateValue();
+    const [dispatch] = useStateValue();
 
     const deleteCartItem = () => {
         dispatch({

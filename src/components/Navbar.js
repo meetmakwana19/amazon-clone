@@ -77,11 +77,11 @@ function Navbar() {
                         <img src="https://i.ibb.co/wWfcTbB/in-square-01.png" alt="" />
                         <ArrowDropDownOutlinedIcon className='country-arrow' />
                     </div>
-                    <div className="nav-account" type="button">
+                    <Link to="/signin" className="nav-account" type="button">
                         <span className='span-h2'>Hello, sign in </span>
                         <span className='span-h1'>Accounts & lists</span>
                         <ArrowDropDownOutlinedIcon className='account-arrow' />
-                    </div>
+                    </Link>
                     <div className="nav-orders" type="button">
                         <span className='span-h2'>Returns</span>
                         <span className='span-h1'>& Orders</span>
