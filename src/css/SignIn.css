@@ -35,7 +35,7 @@ body {
 .signin-form form h6 {
     font-weight: bolder;
     font-size: smaller;
-    margin: 5px 0;
+    margin-bottom: 5px;
 }
 
 .signin-form form input {
@@ -44,15 +44,21 @@ body {
     outline: orange;
     outline-color: orange;
     font-size: smaller;
+    margin-bottom: 20px;
 }
 
 .signin-btn {
     width: 100%;
-    margin: 20px 0;
+    margin-bottom: 20px;
     border-radius: 3px;
     border: 1px solid black;
     padding: 3px;
     background-image: linear-gradient(#ffc94352, #f0c14bdb, #ffc943);
+}
+
+.signin-btn:hover {
+    background-image: linear-gradient(#ffc42e52, #ffb700db, #ffb700);
+
 }
 
 .signin-form>form>p {
@@ -80,8 +86,16 @@ body {
     background-image: linear-gradient(white, #d3d3d370, lightgray);
 }
 
+.signup-section>button:hover {
+    background-image: linear-gradient(lightgray, lightgray, lightgray);
+}
+
+.anchors:hover {
+    color: #C45500;
+}
+
 hr {
-    width: 70%;
+    width: 80%;
     color: gray;
 }
 
@@ -96,4 +110,16 @@ hr {
 
 footer {
     font-size: 11px;
+}
+
+.already {
+    font-size: small;
+    border-top: 1px solid lightgray;
+    padding-top: 10px;
+    margin: 0;
+    color: black;
+}
+
+.signin-link:hover {
+    color: #C45500;
 }

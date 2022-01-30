@@ -10,7 +10,8 @@ import { useStateValue } from '../context/cart-count/CartStateContext';
 
 function Navbar() {
 
-    const [{ cart }] = useStateValue();
+    const [{ cart, user }] = useStateValue();
+    console.log("User in navbar", user);
 
     const navFunc = () => {
         console.log("Here");
@@ -33,6 +34,24 @@ function Navbar() {
             })
         })
     }
+
+    const signOut = async () => {
+        // fetch("http://localhost:8080/auth/logout").then((result) => {
+        const response = await fetch("http://localhost:8080/auth/logout", {
+            method: 'GET',
+            headers: {
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+
+        const resp = await response.json();
+        console.log(resp);
+        // console.log("auth token:", localStorage.getItem("token"));
+        localStorage.removeItem("token");
+        console.log("auth token later:", localStorage.getItem("token"));
+
+        getCategories();
+    }
     return (
         <>
             <div className='header navbar ' style={{ backgroundColor: "#121921", height: "3.75rem", color: "white" }}>
@@ -46,7 +65,7 @@ function Navbar() {
                             <FmdGoodOutlinedIcon />
                         </div>
                         <div className="nav-text">
-                            <span style={{ fontSize: "0.75rem" }}>Hello</span>
+                            <span style={{ fontSize: "0.75rem" }}>Hello {user}</span>
                             <span style={{ fontSize: "0.875rem" }} className='span-location'>Select your address</span>
                         </div>
                     </div>
@@ -78,7 +97,7 @@ function Navbar() {
                         <ArrowDropDownOutlinedIcon className='country-arrow' />
                     </div>
                     <Link to="/signin" className="nav-account" type="button">
-                        <span className='span-h2'>Hello, sign in </span>
+                        <span className='span-h2'>Hello, {user ? "sign out" : "sign in"} </span>
                         <span className='span-h1'>Accounts & lists</span>
                         <ArrowDropDownOutlinedIcon className='account-arrow' />
                     </Link>
@@ -105,6 +124,7 @@ function Navbar() {
                             </div>
                         )
                     })}
+                    {localStorage.getItem("token") ? <li type="button" onClick={signOut}>SignOut</li> : ""}
                     {/* <li type="button">Gift Cards</li>
                     <li type="button">Best Sellers</li>
                     <li type="button">Mobiles</li>

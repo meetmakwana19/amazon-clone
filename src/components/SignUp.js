@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import '../css/SignIn.css';
 import { Link, useNavigate } from 'react-router-dom'
-import { useStateValue } from '../context/cart-count/CartStateContext';
 
-export default function SignIn() {
+export default function SignUp() {
 
-    const [credentials, setCredentials] = useState({ email: "", password: "" })
+    const [credentials, setCredentials] = useState({ name: "", email: "", password: "" })
+
     let navigate = useNavigate()
-    const [dispatch] = useStateValue();
 
     const onChange = (e) => {
         // using spread operator with note means only those things will be changed in the note object which are defined after the spread operator.
@@ -17,62 +16,37 @@ export default function SignIn() {
     const onSignIn = async (e) => {
         // to prevent page reloading
         e.preventDefault()
+        // remove them out from credentials using destructuring
+        const { name, email, password } = credentials;
         // API Call
-        const response = await fetch(`http://localhost:8080/auth/login`, {
+        const response = await fetch(`http://localhost:8080/auth/createUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             // sending email, password in the body
-            body: JSON.stringify({ email: credentials.email, password: credentials.password }) // body data type must match "Content-Type" header
+            body: JSON.stringify({ name, email, password }) // body data type must match "Content-Type" header
+            // body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password }) // body data type must match "Content-Type" header
         });
         const resp = await response.json();
-        console.log("Login response:", resp);
+        // console.log(resp);
         if (resp.success) {
-            localStorage.setItem("token", resp.authToken)
-
             // redirect by saving the auth-token
+            localStorage.setItem("token", resp.authToken)
             // will navigate to the "/" endpoint which is the Home.js
             navigate("/")
+            alert("Account created successfully")
 
-            // props.showAlert_prop("Logged in successfully", "success")
-            alert("Logged in successfully")
-
-            const getUser = async () => {
-
-                console.log("Getting user details");
-                // API Call
-                const response = await fetch(`http://localhost:8080/auth/getUser`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': localStorage.getItem("token")
-                    }
-                });
-                const resp = await response.json();
-                console.log("User details:", resp);
-                const userName = resp.name;
-                console.log(userName);
-
-                dispatch({
-                    type: "SET_USER",
-                    user: userName
-                })
-            };
-            getUser();
-
+            // DISPATCH
         }
         else {
-            // alert('Invalid Credentials')
-            // props.showAlert_prop("Invalid Credentials", "danger")
-            alert("Invalid Credentials")
+            // alert('User already exists with this email')
+            // props.showAlert_prop("User already exists with this email", "danger")
+            alert("User already exists with this email")
         }
     }
 
-    const onSignUp = (e) => {
-        e.preventDefault()
-        navigate("/signup")
-    }
+
     return (
         <div className='signin-div'>
             <Link to="/" className='home-link'>
@@ -80,22 +54,22 @@ export default function SignIn() {
             </Link>
 
             <div className="signin-form">
-                <h2>Sign-in</h2>
+                <h2>Create Account</h2>
                 <form action="submit">
+                    <h6>Your name</h6>
+                    <input type="text" value={credentials.name} onChange={onChange} id='name' />
                     <h6>Email or mobile phone number</h6>
                     <input type="text" value={credentials.email} onChange={onChange} id='email' />
                     <h6>Password</h6>
                     <input type="password" value={credentials.password} onChange={onChange} id='password' />
-                    <button className='signin-btn' onClick={onSignIn}>Sign-In</button>
+                    <button className='signin-btn' onClick={onSignIn}>Sign-up</button>
 
                     <p>By continuing, you agree to Amazon clone's <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940"> Conditions of Use</a> and <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_privacy_notice?ie=UTF8&nodeId=200534380">Privacy Notice.</a></p>
+
+                    <p className='already'>Already have an account? <Link to="/signin" className='signin-link'>Sign in ►</Link></p>
                 </form>
             </div>
 
-            <div className="signup-section">
-                <p>New to Amazon?</p>
-                <button onClick={onSignUp}>Create your Amazon account</button>
-            </div>
             <hr />
             <div className="footer-guide">
                 <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940">Conditions of Use</a>
