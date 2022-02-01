@@ -2,10 +2,13 @@ import React from 'react';
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import { getCartTotal } from '../state/reducers/reducer';
 import "../css/SubTotal.css"
+import { useNavigate } from 'react-router-dom';
 
 export default function SubTotal() {
 
     const [{ cart }] = useStateValue();
+
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -16,8 +19,8 @@ export default function SubTotal() {
                     <h5>Subtotal ({cart.length} items): <small>₹</small><strong>{getCartTotal(cart)}</strong> </h5>
 
                     <input type="checkbox" id="gift-box" name="gift-box" value="Gift" />
-                    <label for="gift-box"> This order contains a gift</label>
-                    <button type="button" class="buy-btn" >Proceed to buy</button>
+                    <label htmlFor="gift-box"> This order contains a gift</label>
+                    <button type="button" className="buy-btn" onClick={e => navigate("/payment")} >Proceed to buy</button>
                 </div>
             </div>
         </div>

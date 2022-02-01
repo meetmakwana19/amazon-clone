@@ -4,9 +4,11 @@ import "../css/CartProduct.css"
 
 export default function CartProduct(props) {
 
-    const [dispatch] = useStateValue();
+    const [{ user }, dispatch] = useStateValue();
+    console.log("user is", user);
 
     const deleteCartItem = () => {
+        console.log("deleting item", props.id);
         dispatch({
             type: "DELETE_FROM_CART",
             dispatched_id: props.id

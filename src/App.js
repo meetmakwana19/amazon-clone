@@ -9,40 +9,15 @@ import {
 import Basket from './components/Basket';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
-import { useEffect } from 'react';
-import { useStateValue } from './context/cart-count/CartStateContext';
+import Payment from './components/Payment';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import Orders from './components/Orders';
+
+
+const promise = loadStripe('pk_test_51KOQwtSG6G0QGYdvniwXXMSxH52jJnDWtVdl7L3pD9Mxh1C49HVgdfYDO793ELr84paLj2lZ7gZ3EhjBekKTmD1y00Dlpuw96s');
 
 function App() {
-
-  const [dispatch] = useStateValue();
-
-  // to keep a track of who is logged in 
-  useEffect(() => {
-    const getUser = async () => {
-
-      console.log("Getting user details");
-      // API Call
-      const response = await fetch(`http://localhost:8080/auth/getUser`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'auth-token': localStorage.getItem("token")
-        }
-      });
-      const resp = await response.json();
-      console.log("User details:", resp);
-      const userName = resp.name;
-      console.log(userName);
-
-      dispatch({
-        type: "SET_USER",
-        user: userName
-      })
-    };
-    getUser();
-
-  }); //will run once at initialization
-
 
   return (
     <div className="App">
@@ -52,6 +27,12 @@ function App() {
           <Route exact path="/" element={<><Navbar /><Home /></>} />
           <Route exact path="/signin" element={<SignIn />} />
           <Route exact path="/signup" element={<SignUp />} />
+          <Route exact path="/orders" element={<><Navbar /><Orders /></>} />
+          <Route exact path="/payment" element={
+            <><Navbar />
+              <Elements stripe={promise}>
+                <Payment />
+              </Elements></>} />
           <Route exact path="/basket" element={<><Navbar /><Basket /></>} />
         </Routes>
       </Router>

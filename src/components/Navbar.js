@@ -103,10 +103,10 @@ function Navbar() {
                         <span className='span-h1'>Accounts & lists</span>
                         <ArrowDropDownOutlinedIcon className='account-arrow' />
                     </Link>
-                    <div className="nav-orders" type="button">
+                    <Link to="orders" className="nav-orders" type="button">
                         <span className='span-h2'>Returns</span>
                         <span className='span-h1'>& Orders</span>
-                    </div>
+                    </Link>
                     <Link className="nav-cart" to="/basket">
                         <ShoppingCartIcon className='shoppingCartIcon' />
                         <span className='span-cart'>Cart</span>

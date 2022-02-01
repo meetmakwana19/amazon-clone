@@ -218,11 +218,14 @@
     padding: 0 0.3125rem;
     background-color: transparent;
     border: 0.0625rem solid #121921;
+    color: white;
+    text-decoration: none;
 }
 
 .nav-orders:hover {
     border: 0.0625rem solid white;
     border-radius: 0.125rem;
+    color: white;
 }
 
 .nav-cart {

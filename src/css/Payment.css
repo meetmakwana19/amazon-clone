@@ -1,0 +1,33 @@
+.payment-page {
+    margin: 30px auto;
+    width: 80%;
+}
+
+.p-checkout {
+    margin: 20px auto;
+    text-decoration: none;
+}
+
+.container {
+    width: 70%;
+    float: left;
+    padding: 0;
+}
+
+.section {
+    display: flex;
+    /* flex-direction: column; */
+    margin: 20px auto;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 20px;
+}
+
+.section-title {
+    flex: 25%;
+}
+
+.section-content {
+    flex: 75%;
+    margin: auto 20px;
+}

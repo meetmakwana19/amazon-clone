@@ -24,6 +24,11 @@ const reducer = (state, action) => {
                 // return the state as it is in addition to some updates in the "cart"
                 cart: [...state.cart, action.item]
             };
+        case "EMPTY_CART":
+            return {
+                ...state,
+                cart: []
+            }
 
         case "DELETE_FROM_CART":
             const index = state.cart.findIndex(
