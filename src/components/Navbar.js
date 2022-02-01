@@ -10,8 +10,7 @@ import { useStateValue } from '../context/cart-count/CartStateContext';
 
 function Navbar() {
 
-    const [{ cart, user }] = useStateValue();
-    console.log("User in navbar", user);
+    const [{ cart, user }, dispatch] = useStateValue();
 
     const navFunc = () => {
         console.log("Here");
@@ -43,12 +42,15 @@ function Navbar() {
                 'auth-token': localStorage.getItem("token")
             },
         });
-
         const resp = await response.json();
         console.log(resp);
         // console.log("auth token:", localStorage.getItem("token"));
         localStorage.removeItem("token");
-        console.log("auth token later:", localStorage.getItem("token"));
+        dispatch({
+            type: "SET_USER",
+            user: ""
+        })
+        console.log("auth token after sign out:", localStorage.getItem("token"));
 
         getCategories();
     }
@@ -65,7 +67,7 @@ function Navbar() {
                             <FmdGoodOutlinedIcon />
                         </div>
                         <div className="nav-text">
-                            <span style={{ fontSize: "0.75rem" }}>Hello {user}</span>
+                            <span style={{ fontSize: "0.75rem" }}>Deliver to {user ? user : "Guest"}</span>
                             <span style={{ fontSize: "0.875rem" }} className='span-location'>Select your address</span>
                         </div>
                     </div>
@@ -97,7 +99,7 @@ function Navbar() {
                         <ArrowDropDownOutlinedIcon className='country-arrow' />
                     </div>
                     <Link to="/signin" className="nav-account" type="button">
-                        <span className='span-h2'>Hello, {user ? "sign out" : "sign in"} </span>
+                        <span className='span-h2'>Hello, {user ? user.split(" ")[0] : "Sign in"}</span>
                         <span className='span-h1'>Accounts & lists</span>
                         <ArrowDropDownOutlinedIcon className='account-arrow' />
                     </Link>

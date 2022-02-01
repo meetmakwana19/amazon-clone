@@ -1,6 +1,6 @@
 export const initialState = {
     cart: [],
-    user: null
+    user: ""
 };
 
 // to tally up all the item sellprices in a fancy way- SELECTOR
@@ -11,6 +11,13 @@ export const getCartTotal = (cart) =>
 const reducer = (state, action) => {
     console.log("Reducer action :", action);
     switch (action.type) {
+        case "SET_USER":
+            console.log("came to SET_USER");
+            console.log("action.user type", typeof action.user);
+            return {
+                ...state,
+                user: action.user //updated user from the action dispatched from component like `SignIn.js`
+            }
         case "ADD_TO_CART":
             return {
                 ...state,
@@ -37,12 +44,6 @@ const reducer = (state, action) => {
                 ...state,
                 cart: updatedCart
             };
-
-        case "SET_USER":
-            return {
-                ...state,
-                user: action.user //updated user from the action dispatched from component like `SignIn.js`
-            }
         default:
             return state;
     }

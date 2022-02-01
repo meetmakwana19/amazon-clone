@@ -36,6 +36,7 @@ body {
     font-weight: bolder;
     font-size: smaller;
     margin-bottom: 5px;
+    margin-top: 20px;
 }
 
 .signin-form form input {
@@ -44,7 +45,7 @@ body {
     outline: orange;
     outline-color: orange;
     font-size: smaller;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .signin-btn {
@@ -53,10 +54,11 @@ body {
     border-radius: 3px;
     border: 1px solid black;
     padding: 3px;
+    margin-top: 20px;
     background-image: linear-gradient(#ffc94352, #f0c14bdb, #ffc943);
 }
 
-.signin-btn:hover {
+.signin-btn:hover:enabled {
     background-image: linear-gradient(#ffc42e52, #ffb700db, #ffb700);
 
 }

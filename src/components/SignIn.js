@@ -7,7 +7,8 @@ export default function SignIn() {
 
     const [credentials, setCredentials] = useState({ email: "", password: "" })
     let navigate = useNavigate()
-    const [dispatch] = useStateValue();
+    const [{ user }, dispatch] = useStateValue();
+    console.log("User in signIn component", user);
 
     const onChange = (e) => {
         // using spread operator with note means only those things will be changed in the note object which are defined after the spread operator.
@@ -52,12 +53,17 @@ export default function SignIn() {
                 const resp = await response.json();
                 console.log("User details:", resp);
                 const userName = resp.name;
-                console.log(userName);
+                console.log("userName is", userName);
 
-                dispatch({
-                    type: "SET_USER",
-                    user: userName
-                })
+                try {
+                    console.log("tyring dispatch");
+                    dispatch({
+                        type: "SET_USER",
+                        user: userName
+                    })
+                } catch (error) {
+                    console.log(error);
+                }
             };
             getUser();
 
@@ -82,11 +88,13 @@ export default function SignIn() {
             <div className="signin-form">
                 <h2>Sign-in</h2>
                 <form action="submit">
-                    <h6>Email or mobile phone number</h6>
+
+                    <h6>Email Id <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
                     <input type="text" value={credentials.email} onChange={onChange} id='email' />
-                    <h6>Password</h6>
+                    <h6>Password <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
                     <input type="password" value={credentials.password} onChange={onChange} id='password' />
-                    <button className='signin-btn' onClick={onSignIn}>Sign-In</button>
+
+                    <button className='signin-btn' onClick={onSignIn} disabled={credentials.email.length < 5 || credentials.password.length < 6}>Sign-In</button>
 
                     <p>By continuing, you agree to Amazon clone's <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940"> Conditions of Use</a> and <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_privacy_notice?ie=UTF8&nodeId=200534380">Privacy Notice.</a></p>
                 </form>

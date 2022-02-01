@@ -56,13 +56,17 @@ export default function SignUp() {
             <div className="signin-form">
                 <h2>Create Account</h2>
                 <form action="submit">
-                    <h6>Your name</h6>
+
+                    <h6>Your name <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
                     <input type="text" value={credentials.name} onChange={onChange} id='name' />
-                    <h6>Email or mobile phone number</h6>
+                    <div id="emailHelp" class="form-text">Name must be of minimum 3 characters.</div>
+                    <h6>Email Id <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
                     <input type="text" value={credentials.email} onChange={onChange} id='email' />
-                    <h6>Password</h6>
+                    <h6>Password <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
                     <input type="password" value={credentials.password} onChange={onChange} id='password' />
-                    <button className='signin-btn' onClick={onSignIn}>Sign-up</button>
+                    <div id="emailHelp" class="form-text">Password must be of minimum 5 characters.</div>
+
+                    <button disabled={credentials.name.length < 3 || credentials.email.length < 5 || credentials.password.length < 6} className='signin-btn' onClick={onSignIn}>Sign-up</button>
 
                     <p>By continuing, you agree to Amazon clone's <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940"> Conditions of Use</a> and <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_privacy_notice?ie=UTF8&nodeId=200534380">Privacy Notice.</a></p>
 
