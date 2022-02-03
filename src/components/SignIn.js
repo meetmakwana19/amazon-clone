@@ -87,6 +87,7 @@ export default function SignIn() {
 
             <div className="signin-form">
                 <h2>Sign-in</h2>
+
                 <form action="submit">
 
                     <h6>Email Id <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>

@@ -3,44 +3,115 @@ import Carousel from './Carousel';
 import "../css/Home.css"
 import StarRatings from 'react-star-ratings';
 import { useStateValue } from '../context/cart-count/CartStateContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const [data, setData] = useState([])
 
 
     // state is the global context state
-    const [{ cart }, dispatch] = useStateValue();
+    const [{ cart, user, address }, dispatch] = useStateValue();
     console.log("State is", cart);
 
+    const navigate = useNavigate();
+
     const handleOnAddToCart = async (id) => {
-        console.log("Product id is", id);
+
+        if (!user) {
+            navigate("/signin")
+        }
 
         const url = `http://localhost:8080/products/${id}`
         let data = await fetch(url);
-        let parsedObject = await data.json()
-        console.log("Parsed data: ", parsedObject);
+        let oldparsedObject = await data.json()
 
-        // dispatch the data to the global context
-        dispatch({
-            type: "ADD_TO_CART",
-            item: {
-                productImage_: parsedObject.productImage,
-                name: parsedObject.name,
-                brandName: parsedObject.brandName,
-                sellPrice: parsedObject.sellPrice,
-                mrp: parsedObject.mrp,
-                avgRating: parsedObject.avgRating,
-                currentStock: parsedObject.currentStock,
-                deliveryCharge: parsedObject.deliveryCharge,
-                sellerName: parsedObject.sellerName
+        try {
+            const response = await fetch(`http://localhost:8080/order/placeOrder`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': localStorage.getItem("token")
+                },
+                // sending email, password in the body
+                body: JSON.stringify({
+                    orderedItem: oldparsedObject._id,
+                    orderItemTotal: oldparsedObject.sellPrice,
+                    discount: oldparsedObject.mrp - oldparsedObject.sellPrice,
+                    shippingAddress: address,
+                    grandTotal: oldparsedObject.sellPrice,
+                }) // body data type must match "Content-Type" header
+            });
+            console.log(response);
+
+            const response2 = await fetch(`http://localhost:8080/order/orderedProducts`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': localStorage.getItem("token")
+                },
+            });
+            let parsedObject = await response2.json()
+
+            // console.log("product id is", parsedObject._id);
+            // console.log(" discount is", parsedObject.mrp - parsedObject.sellPrice);
+            for (let i = 0; i < parsedObject.length; i++) {
+                // console.log("Ordered id of user", parsedObject[i]._id);
+                const orderId = parsedObject[i]._id
+                const id = parsedObject[i].orderedItem
+                const url = `http://localhost:8080/products/${id}`
+                let data = await fetch(url);
+                let product = await data.json()
+                // console.log("Product is", product);
+                dispatch({
+                    type: "ADD_TO_CART",
+                    item: {
+                        // order_id: parsedObject[i]._id,
+                        order_id: orderId,
+                        _id: product._id,
+                        productImage_: product.productImage,
+                        name: product.name,
+                        brandName: product.brandName,
+                        sellPrice: product.sellPrice,
+                        mrp: product.mrp,
+                        avgRating: product.avgRating,
+                        currentStock: product.currentStock,
+                        deliveryCharge: product.deliveryCharge,
+                        sellerName: product.sellerName
+                    }
+                })
             }
-        })
+            alert("Product added to cart")
+        }
+        catch (err) {
+            console.log("error is", err);
+        }
+
     }
 
     // An API must be called in useEffect() hook in rfc
     useEffect(() => {
-        getProducts() //this is to call again the function to update the page instantly on delete
+        getProducts(); //this is to call again the function to update the page instantly on delete
+        getProducts(); //this is to call again the function to update the page instantly on delete
+        getAddress();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) //passing an empty array as 2nd argument makes the react know that it needs to be run only once.
+
+    const getAddress = async () => {
+        // API Call
+        const response = await fetch(`http://localhost:8080/auth/getUser`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            }
+        });
+        const resp = await response.json();
+        dispatch({
+            type: "SET_ADDRESS",
+            address: resp.address
+        })
+    };
+
 
     function getProducts() {
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise

@@ -5,7 +5,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/cart-count/CartStateContext';
 
 function Navbar() {
@@ -17,6 +17,7 @@ function Navbar() {
     }
 
     const [data, setData] = useState([])
+    const navigate = useNavigate();
 
     // An API must be called in useEffect() hook in rfc
     useEffect(() => {
@@ -48,21 +49,32 @@ function Navbar() {
         localStorage.removeItem("token");
         dispatch({
             type: "SET_USER",
-            user: ""
+            user: "",
+        })
+        dispatch({
+            type: "SET_ADDRESS",
+            address: "",
+        })
+        dispatch({
+            type: "EMPTY_CART",
         })
         console.log("auth token after sign out:", localStorage.getItem("token"));
 
         getCategories();
+    }
+
+    const handleAddress = () => {
+        navigate("/address")
     }
     return (
         <>
             <div className='header navbar ' style={{ backgroundColor: "#121921", height: "3.75rem", color: "white" }}>
 
                 <div className="nav-left">
-                    <Link to="/" className="div-logo" type="button">
+                    <Link to="/" className="div-logo" type="button" onClick={() => { dispatch({ type: "EMPTY_CART" }) }}>
                         <img src="https://www.linkpicture.com/q/amazon-logo.png" alt="" className="app-logo" style={{ width: "6.25rem" }} />
                     </Link>
-                    <div className="nav-location" type="button">
+                    <div className="nav-location" type="button" onClick={handleAddress}>
                         <div className="nav-icon">
                             <FmdGoodOutlinedIcon />
                         </div>
@@ -103,7 +115,7 @@ function Navbar() {
                         <span className='span-h1'>Accounts & lists</span>
                         <ArrowDropDownOutlinedIcon className='account-arrow' />
                     </Link>
-                    <Link to="orders" className="nav-orders" type="button">
+                    <Link to="/orders" className="nav-orders" type="button">
                         <span className='span-h2'>Returns</span>
                         <span className='span-h1'>& Orders</span>
                     </Link>
@@ -127,22 +139,6 @@ function Navbar() {
                         )
                     })}
                     {localStorage.getItem("token") ? <li type="button" onClick={signOut}>SignOut</li> : ""}
-                    {/* <li type="button">Gift Cards</li>
-                    <li type="button">Best Sellers</li>
-                    <li type="button">Mobiles</li>
-                    <li type="button">Customer Care</li>
-                    <li type="button">Electronics</li>
-                    <li type="button">Today's Deals</li>
-                    <li type="button">Fashion</li>
-                    <li type="button">Prime</li>
-                    <li type="button">Home and Kitchen</li>
-                    <li type="button">Amazon Pay</li>
-                    <li type="button">New Releases</li>
-                    <li type="button">Computers</li>
-                    <li type="button">Books</li>
-                    <li type="button">Coupons</li>
-                    <li type="button">Toys and Games</li>
-                    <li type="button">Sell</li> */}
                 </ul>
             </div>
         </>

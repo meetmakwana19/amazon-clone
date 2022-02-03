@@ -1,0 +1,31 @@
+.address-div {
+    margin: 20px auto;
+    width: 30%;
+}
+
+.done {
+    margin-top: 20px;
+    float: right;
+    padding: 2px 25px;
+    font-size: medium;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid lightgray;
+    background-color: white;
+}
+
+.done:hover:enabled {
+    background-color: #f7f7f7;
+}
+
+form h5 {
+    font-weight: bolder;
+}
+
+form p {
+    font-size: medium;
+}
+
+form h6 {
+    font-weight: bold;
+}

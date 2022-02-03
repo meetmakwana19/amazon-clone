@@ -13,6 +13,7 @@ import Payment from './components/Payment';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import Orders from './components/Orders';
+import Address from './components/Address';
 
 
 const promise = loadStripe('pk_test_51KOQwtSG6G0QGYdvniwXXMSxH52jJnDWtVdl7L3pD9Mxh1C49HVgdfYDO793ELr84paLj2lZ7gZ3EhjBekKTmD1y00Dlpuw96s');
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/signin" element={<SignIn />} />
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/orders" element={<><Navbar /><Orders /></>} />
+          <Route exact path="/address" element={<><Navbar /><Address /></>} />
           <Route exact path="/payment" element={
             <><Navbar />
               <Elements stripe={promise}>
