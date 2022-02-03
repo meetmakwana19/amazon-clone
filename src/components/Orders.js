@@ -1,27 +1,35 @@
-import React from 'react';
-import { useStateValue } from '../context/cart-count/CartStateContext';
+import React, { useEffect, useState } from 'react';
 import "../css/Orders.css"
-import CartProduct from './CartProduct';
 
 export default function Orders() {
-    const [{ filledCart }] = useStateValue();
+
+    const [history, setHistory] = useState(null);
+
+    useEffect(() => {
+        getOrders();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const getOrders = async () => {
+        const response = await fetch(`http://localhost:8080/order/confirmedOrder`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+        const resp = await response.json();
+        console.log("Your order history:", resp);
+        setHistory(JSON.stringify(resp))
+        console.log("histroy is", history);
+    }
+
     return (
         <div className='orders-page'>
             <h2>Your Orders</h2>
-
             <div className="container">
-                {filledCart.map((item, pos) => (
-                    <CartProduct key={pos}
-                        order_id={item._order_id}
-                        _id={item._id}
-                        productImage={item.productImage_}
-                        name={item.name}
-                        currentStock={item.currentStock}
-                        sellerName={item.sellerName}
-                        deliveryCharge={item.deliveryCharge}
-                        sellPrice={item.sellPrice}
-                    />
-                ))}
+                {/* <input type="text" value={history} /> */}
+                {history}
             </div>
         </div>
     );

@@ -41,7 +41,7 @@ export default function SignIn() {
 
             const getUser = async () => {
 
-                console.log("Getting user details");
+                // console.log("Getting user details");
                 // API Call
                 const response = await fetch(`http://localhost:8080/auth/getUser`, {
                     method: 'GET',
@@ -51,9 +51,10 @@ export default function SignIn() {
                     }
                 });
                 const resp = await response.json();
-                console.log("User details:", resp);
+                // console.log("User details:", resp);
                 const userName = resp.name;
-                console.log("userName is", userName);
+                // console.log("userName is", userName);
+                const user_id = resp._id
 
                 try {
                     console.log("tyring dispatch");
@@ -61,6 +62,11 @@ export default function SignIn() {
                         type: "SET_USER",
                         user: userName
                     })
+                    dispatch({
+                        type: "SET_USER_ID",
+                        user: user_id
+                    })
+                    // console.log("user id", user_id);
                 } catch (error) {
                     console.log(error);
                 }

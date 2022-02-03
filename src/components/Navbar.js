@@ -10,7 +10,7 @@ import { useStateValue } from '../context/cart-count/CartStateContext';
 
 function Navbar() {
 
-    const [{ cart, user }, dispatch] = useStateValue();
+    const [{ user, filledCart }, dispatch] = useStateValue();
 
     const navFunc = () => {
         console.log("Here");
@@ -64,6 +64,11 @@ function Navbar() {
     }
 
     const handleAddress = () => {
+
+        if (!user) {
+            navigate("/signin")
+        }
+
         navigate("/address")
     }
     return (
@@ -122,7 +127,7 @@ function Navbar() {
                     <Link className="nav-cart" to="/basket">
                         <ShoppingCartIcon className='shoppingCartIcon' />
                         <span className='span-cart'>Cart</span>
-                        <span className='cart-count'>{cart?.length}</span>
+                        <span className='cart-count'>{filledCart?.length}</span>
                     </Link>
                 </div>
 

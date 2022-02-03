@@ -2,7 +2,8 @@ export const initialState = {
     cart: [],
     filledCart: [],
     user: "",
-    address: ""
+    address: "",
+    user_id: "",
 };
 
 // to tally up all the item sellprices in a fancy way- SELECTOR
@@ -17,6 +18,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 user: action.user //updated user from the action dispatched from component like `SignIn.js`
+            }
+        case "SET_USER_ID":
+            return {
+                ...state,
+                user_id: action.user_id //updated user from the action dispatched from component like `SignIn.js`
             }
         case "SET_ADDRESS":
             // console.log("address reduces", action);

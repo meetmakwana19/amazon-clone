@@ -1,4 +1,5 @@
-import { useElements, useStripe, CardElement } from '@stripe/react-stripe-js';
+// import { useElements, useStripe, CardElement } from '@stripe/react-stripe-js';
+import { CardElement } from '@stripe/react-stripe-js';
 import React from 'react';
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import '../css/Payment.css'
@@ -14,14 +15,17 @@ export default function Payment() {
 
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
-    const [succeeded, setSucceeded] = useState(false);
-    const [processing, setProcessing] = useState("");
+    // const [succeeded, setSucceeded] = useState(false);
+    // const [processing, setProcessing] = useState("");
     const [clientSecret, setClientSecret] = useState(true);
+    console.log(disabled);
 
     const navigate = useNavigate();
 
 
     useEffect(() => {
+        // console.log("fill cart ", JSON.stringify(filledCart));
+
         // generate  a special stripe secret allowing to charge an user correctly whenever the cart changes.
 
         const getClientSecret = async () => {
@@ -33,39 +37,100 @@ export default function Payment() {
             setClientSecret(resp.data.clientSecret)
         }
         getClientSecret();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [cart]);
 
     console.log("The secret is", clientSecret);
 
 
     // powerfull hooks 😈
-    const stripe = useStripe();
-    const elements = useElements();
+    // const stripe = useStripe();
+    // const elements = useElements();
 
     const handleSubmit = async (event) => {
         // fancy STRIPE stuff
 
         event.preventDefault();
-        setProcessing(true) //usefull to make the button disable while the payment is processing
+        // setProcessing(true) //usefull to make the button disable while the payment is processing
 
-        const payload = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                // finds the card details from CardElement in the <form> in the return method.
-                card: elements.getElement(CardElement)
+        console.log("handling order final");
+        // const payload = await stripe.confirmCardPayment(clientSecret, {
+        //     payment_method: {
+        //         // finds the card details from CardElement in the <form> in the return method.
+        //         card: elements.getElement(CardElement)
+        //     }
+        // }).then(({ paymentIntent }) => {
+        //     // paymentIntent means payment confirmation
+        //     setSucceeded(true)
+        //     setError(null)
+        //     setProcessing(false)
+
+        //     dispatch({
+        //         type: "EMPTY_CART"
+        //     })
+        //     // navigate("/orders", { replace: true })
+        //     navigate("/", { replace: true })
+        // })
+        // console.log(payload);
+
+        try {
+            const response = await fetch(`http://localhost:8080/auth/getUser`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': localStorage.getItem("token")
+                }
+            });
+            const resp = await response.json();
+            console.log("User details:", resp);
+            const userID = resp._id;
+            console.log("userName is", userID);
+
+            try {
+                const response = await fetch(`http://localhost:8080/order/confirmOrder`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': localStorage.getItem("token")
+                    },
+                    // sending email, password in the body
+                    body: JSON.stringify({
+                        user: userID,
+                        order: JSON.stringify(filledCart),
+                        paidAmount: getCartTotal(filledCart),
+                    }) // body data type must match "Content-Type" header
+                });
+                console.log("saving order", response._id);
             }
-        }).then(({ paymentIntent }) => {
-            // paymentIntent means payment confirmation
-            setSucceeded(true)
-            setError(null)
-            setProcessing(false)
-
+            catch (err) {
+                console.log("error is", err);
+            }
             dispatch({
                 type: "EMPTY_CART"
             })
-            // navigate("/orders", { replace: true })
+            alert("Order Placed")
             navigate("/", { replace: true })
-        })
-        console.log(payload);
+            emptyCart();
+        }
+        catch (err) {
+            console.log("error for placing order is", err);
+        }
+    }
+
+    const emptyCart = async () => {
+        for (let i = 0; i < filledCart.length; i++) {
+            const orderId = filledCart[i].order_id
+            console.log("filledcart ids", orderId);
+            const response = await fetch(`http://localhost:8080/order/${orderId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': localStorage.getItem("token")
+                },
+            });
+            console.log(response);
+        }
     }
 
     const handleChange = (event) => {
@@ -129,7 +194,6 @@ export default function Payment() {
                             <form onSubmit={handleSubmit}>
                                 <CardElement onChange={handleChange} />
                                 <div className="pricing">
-                                    <h6>Subtotal ({cart.length} items): <small>₹</small><strong>{getCartTotal(cart)}</strong> </h6>
                                 </div>
 
                                 {/* if error is there, then show it in the div */}
@@ -139,11 +203,14 @@ export default function Payment() {
                     </div>
                 </div>
                 <div className="side-container">
-                    <button disabled={processing || disabled || succeeded}>
-                        <span>{processing ? <p>Processing</p> : "Place Your Order and Pay"}</span>
+                    <h6>Grand total ({filledCart.length} items): <small>₹</small><strong>{getCartTotal(filledCart)}</strong> </h6>
+
+                    {/* <button onClick={handleSubmit} disabled={processing || disabled || succeeded}> */}
+                    <button onClick={handleSubmit}>
+                        {/* <span>{processing ? <p>Processing</p> : "Place Your Order and Pay"}</span> */}
+                        <span>Place Your Order and Pay</span>
                     </button>
-                    <p>You can review this order before it's final.
-                    </p>
+                    {/* <p>You can review this order before it's final.</p> */}
 
                 </div>
             </div>
