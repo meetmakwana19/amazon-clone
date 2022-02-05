@@ -1,13 +1,11 @@
-// import { useElements, useStripe, CardElement } from '@stripe/react-stripe-js';
 import { CardElement } from '@stripe/react-stripe-js';
 import React from 'react';
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import '../css/Payment.css'
 import CartProduct from './CartProduct';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getCartTotal } from '../state/reducers/reducer';
 import { useNavigate } from 'react-router-dom';
-import axios from '../axios';
 
 export default function Payment() {
 
@@ -15,64 +13,13 @@ export default function Payment() {
 
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
-    // const [succeeded, setSucceeded] = useState(false);
-    // const [processing, setProcessing] = useState("");
-    const [clientSecret, setClientSecret] = useState(true);
     console.log(disabled);
 
     const navigate = useNavigate();
 
-
-    useEffect(() => {
-        // console.log("fill cart ", JSON.stringify(filledCart));
-
-        // generate  a special stripe secret allowing to charge an user correctly whenever the cart changes.
-
-        const getClientSecret = async () => {
-            const resp = await axios({
-                method: "post",
-                url: `/payments/create?total=${getCartTotal(cart) * 100}`
-                // stripe takes lowest denomination no matter what currency type, so for 1 rupee=100paise i.e stripe will do transaction in paise so converted a rupee into paise by *100
-            });
-            setClientSecret(resp.data.clientSecret)
-        }
-        getClientSecret();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    }, [cart]);
-
-    console.log("The secret is", clientSecret);
-
-
-    // powerfull hooks 😈
-    // const stripe = useStripe();
-    // const elements = useElements();
-
     const handleSubmit = async (event) => {
-        // fancy STRIPE stuff
 
         event.preventDefault();
-        // setProcessing(true) //usefull to make the button disable while the payment is processing
-
-        console.log("handling order final");
-        // const payload = await stripe.confirmCardPayment(clientSecret, {
-        //     payment_method: {
-        //         // finds the card details from CardElement in the <form> in the return method.
-        //         card: elements.getElement(CardElement)
-        //     }
-        // }).then(({ paymentIntent }) => {
-        //     // paymentIntent means payment confirmation
-        //     setSucceeded(true)
-        //     setError(null)
-        //     setProcessing(false)
-
-        //     dispatch({
-        //         type: "EMPTY_CART"
-        //     })
-        //     // navigate("/orders", { replace: true })
-        //     navigate("/", { replace: true })
-        // })
-        // console.log(payload);
 
         try {
             const response = await fetch(`http://localhost:8080/auth/getUser`, {
@@ -149,7 +96,7 @@ export default function Payment() {
     return (
         <div className='payment-page'>
             <div>
-                <img src="https://images-eu.ssl-images-amazon.com/images/G/31/checkout/payselect/progressbar-payments._CB485947677_.gif" alt="" srcSet="" />
+                <img style={{ border: "2px solid orange", padding: "4px" }} src="https://images-eu.ssl-images-amazon.com/images/G/31/checkout/payselect/progressbar-payments._CB485947677_.gif" alt="" srcSet="" />
             </div>
 
 
@@ -192,7 +139,7 @@ export default function Payment() {
                         <div className="section-content">
                             <h6>Payment Details</h6>
                             <form onSubmit={handleSubmit}>
-                                <CardElement onChange={handleChange} />
+                                <CardElement className='text-white' onChange={handleChange} />
                                 <div className="pricing">
                                 </div>
 

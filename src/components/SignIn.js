@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import '../css/SignIn.css';
 import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/cart-count/CartStateContext';
+import themeContext from '../context/theme/ThemeContext';
 
 export default function SignIn() {
 
+    const { darkMode } = useContext(themeContext);
     const [credentials, setCredentials] = useState({ email: "", password: "" })
     let navigate = useNavigate()
     const [{ user }, dispatch] = useStateValue();
@@ -87,8 +89,8 @@ export default function SignIn() {
     }
     return (
         <div className='signin-div'>
-            <Link to="/" className='home-link'>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/100px-Amazon_logo.svg.png" alt="" className="amazon-logo" /> .in
+            <Link to="/" className={darkMode ? "home-link text-white" : 'home-link'}>
+                <img src={darkMode ? "https://www.pinclipart.com/picdir/big/57-576184_view-our-amazon-storefront-amazon-logo-white-png.png" : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/100px-Amazon_logo.svg.png"} alt="" className="amazon-logo" /> .in
             </Link>
 
             <div className="signin-form">
@@ -97,9 +99,9 @@ export default function SignIn() {
                 <form action="submit">
 
                     <h6>Email Id <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
-                    <input type="text" value={credentials.email} onChange={onChange} id='email' />
+                    <input className={darkMode ? 'bg-secondary text-white' : null} type="text" value={credentials.email} onChange={onChange} id='email' />
                     <h6>Password <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
-                    <input type="password" value={credentials.password} onChange={onChange} id='password' />
+                    <input className={darkMode ? 'bg-secondary text-white' : null} type="password" value={credentials.password} onChange={onChange} id='password' />
 
                     <button className='signin-btn' onClick={onSignIn} disabled={credentials.email.length < 5 || credentials.password.length < 6}>Sign-In</button>
 

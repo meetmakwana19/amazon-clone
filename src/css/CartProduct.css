@@ -16,6 +16,8 @@
     object-fit: contain;
     height: 180px;
     width: 180px;
+    margin: auto 20px;
+    border: 4px solid white;
 }
 
 .cartProduct-h {
@@ -44,6 +46,7 @@
 
 .delete-btn:hover {
     text-decoration: underline;
+    color: #C45500;
 }
 
 .price {

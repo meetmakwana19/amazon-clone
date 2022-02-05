@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStateValue } from '../context/cart-count/CartStateContext';
+import themeContext from '../context/theme/ThemeContext';
 import '../css/Address.css';
 
 export default function Address() {
 
+    const { darkMode } = useContext(themeContext);
     const [{ user, address }, dispatch] = useStateValue();
     const [credentials, setCredentials] = useState({ address: "" })
     const [presentAddr, setPresentAddr] = useState("");
@@ -56,7 +58,7 @@ export default function Address() {
 
     return (
         <div className='address-div'>
-            <div className="card">
+            <div className={darkMode ? "card bg-dark text-white" : "card"}>
                 <div className="card-header">
                     Your shipping address {user.split(" ")[0]}
                 </div>
@@ -66,7 +68,7 @@ export default function Address() {
                             <div class="col-12">
                                 <h5>Current saved address : </h5><p>{address}</p>
                                 <h6>Change Address :</h6>
-                                <textarea type="text" class="form-control" id="address" placeholder="1234 Main St" value={credentials.address} onChange={onChange} />
+                                <textarea type="text" class={darkMode ? "form-control bg-dark text-white" : "form-control"} id="address" placeholder="1234 Main St" value={credentials.address} onChange={onChange} />
                             </div>
                             <button disabled={credentials.address.length < 1} className='done' onClick={onDone}>Done</button>
                         </form>

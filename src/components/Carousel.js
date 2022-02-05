@@ -61,13 +61,10 @@ export default function Carousel() {
                 {/* passing props along with the Crads. */}
                 <Cards className="card-item" title="Up to 70% off | Electronics clearance store" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img21/CEPC/Clearance/May21/V238940049_IN_PC_BAU_Edit_Creation_Laptops1x._SY304_CB667377205_.jpg" btnText="See more" />
 
-                <Cards className="card-item" title="Pay your credit card bills on Amazon" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img19/AmazonPay/Boson/Sid/CCBP/DesktopGateway_CategoryCard_379x304_CCBP._SY304_CB413372299_.jpg" btnText="Pay now" />
+                <Cards className="card-item" title="Pay your credit card bills on Amazon" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img19/AmazonPay/Boson/Sid/CCBP/DesktopGateway_CategoryCard_379x304_CCBP._SY304_CB413372299_.jpg" btnText="Pay now" linkedToUrl="https://www.amazon.in/gp/help/customer/display.html?nodeId=GKLD2EQBY7FA7KFH" />
 
-                <Cards className="card-item" title="Upgrade your home | Amazon Brands & more" cardImg="https://i.ibb.co/7tjmzdR/Screenshot-2022-01-02-180409.png" btnText="Explore all" />
-
-                {/* <Cards className="card-item" title="Sign in for your best experience" btnText="Sign-in for best experience" /> */}
+                <Cards className="card-item" title="Alexa, take me to the Moon" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/PR/Alexa_moon_CC_PC_379x304._SY304_CB646625848_.jpg" btnText="Read more stories" linkedToUrl="https://www.aboutamazon.in/?pf_rd_r=RJ9PK4DSGFT37MBJ2FQT&pf_rd_p=16833406-f106-43cd-8a16-e8c2dd614ab7&pd_rd_r=17be4bc0-24b7-40cf-a027-5779249f99d5&pd_rd_w=vb1Tb&pd_rd_wg=qI45F&ref_=pd_gw_unk" />
             </div>
-
         </div>
     )
 }

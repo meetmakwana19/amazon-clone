@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import '../css/SignIn.css';
 import { Link, useNavigate } from 'react-router-dom'
+import themeContext from '../context/theme/ThemeContext';
 
 export default function SignUp() {
 
+    const { darkMode } = useContext(themeContext);
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "" })
 
     let navigate = useNavigate()
@@ -49,8 +51,8 @@ export default function SignUp() {
 
     return (
         <div className='signin-div'>
-            <Link to="/" className='home-link'>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/100px-Amazon_logo.svg.png" alt="" className="amazon-logo" /> .in
+            <Link to="/" className={darkMode ? "home-link text-white" : 'home-link'}>
+                <img src={darkMode ? "https://www.pinclipart.com/picdir/big/57-576184_view-our-amazon-storefront-amazon-logo-white-png.png" : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/100px-Amazon_logo.svg.png"} alt="" className="amazon-logo" /> .in
             </Link>
 
             <div className="signin-form">
@@ -58,12 +60,12 @@ export default function SignUp() {
                 <form action="submit">
 
                     <h6>Your name <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
-                    <input type="text" value={credentials.name} onChange={onChange} id='name' />
+                    <input className={darkMode ? 'bg-secondary text-white' : null} type="text" value={credentials.name} onChange={onChange} id='name' />
                     <div id="emailHelp" class="form-text">Name must be of minimum 3 characters.</div>
                     <h6>Email Id <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
-                    <input type="text" value={credentials.email} onChange={onChange} id='email' />
+                    <input className={darkMode ? 'bg-secondary text-white' : null} type="text" value={credentials.email} onChange={onChange} id='email' />
                     <h6>Password <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
-                    <input type="password" value={credentials.password} onChange={onChange} id='password' />
+                    <input className={darkMode ? 'bg-secondary text-white' : null} type="password" value={credentials.password} onChange={onChange} id='password' />
                     <div id="emailHelp" class="form-text">Password must be of minimum 5 characters.</div>
 
                     <button disabled={credentials.name.length < 3 || credentials.email.length < 5 || credentials.password.length < 6} className='signin-btn' onClick={onSignIn}>Sign-up</button>

@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useStateValue } from '../context/cart-count/CartStateContext';
+import themeContext from '../context/theme/ThemeContext';
 import "../css/Basket.css"
 import CartProduct from './CartProduct';
 import SubTotal from './SubTotal';
 
 export default function Basket() {
 
+    const { darkMode } = useContext(themeContext);
     const [{ filledCart }, dispatch] = useStateValue();
 
     useEffect(() => {
@@ -15,6 +17,8 @@ export default function Basket() {
 
     const getOrder = async () => {
         // console.log("Cart in basket.js is", cart);
+
+        dispatch({ type: "EMPTY_CART" })
 
         const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
             method: 'GET',
@@ -27,7 +31,6 @@ export default function Basket() {
         let parsedObject = await response.json()
         // console.log("parsedObject", parsedObject[1]._id);
 
-        // console.log("Ordered items id of user", parsedObject[1].orderedItem);
         for (let i = 0; i < parsedObject.length; i++) {
             // console.log("Ordered id of user", parsedObject[i]._id);
             const orderId = parsedObject[i]._id
@@ -35,11 +38,9 @@ export default function Basket() {
             const url = `http://localhost:8080/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
-            // console.log("Product is", product);
             dispatch({
                 type: "FILL_TO_CART",
                 item: {
-                    // order_id: parsedObject[i]._id,
                     order_id: orderId,
                     _id: product._id,
                     productImage_: product.productImage,
@@ -59,10 +60,8 @@ export default function Basket() {
 
     return (
         <div className='basket-component'>
-            <div className="section-left">
-                <h2>Shopping Cart</h2>
-                <hr />
-
+            <div className={darkMode ? "section-left bg-dark" : "section-left"}>
+                <h2 id='shopping-h'>Shopping Cart</h2>
                 {/* for every single item in cart, return the CartProduct component */}
                 {filledCart.map((item, pos) => (
                     <CartProduct key={pos}

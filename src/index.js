@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 // import CartCountState from './context/cart-count/CartCountState';
 import { StateProvider } from './context/cart-count/CartStateContext';
 import reducer, { initialState } from "./state/reducers/reducer"
+import { ThemeState } from './context/theme/ThemeState';
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <CartCountState> */}
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <App />
-    </StateProvider>
+    <ThemeState>
+      <StateProvider initialState={initialState} reducer={reducer}>
+        <App />
+      </StateProvider>
+    </ThemeState>
     {/* </CartCountState> */}
   </React.StrictMode>,
   document.getElementById('root')

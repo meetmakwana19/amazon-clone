@@ -1,5 +1,5 @@
 import '../css/Navbar.css'
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
@@ -7,9 +7,12 @@ import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/cart-count/CartStateContext';
+import ThemeBtn from './ThemeBtn';
+import themeContext from '../context/theme/ThemeContext';
 
 function Navbar() {
 
+    const { darkMode } = useContext(themeContext);
     const [{ user, filledCart }, dispatch] = useStateValue();
 
     const navFunc = () => {
@@ -22,6 +25,8 @@ function Navbar() {
     // An API must be called in useEffect() hook in rfc
     useEffect(() => {
         getCategories() //this is to call again the function to update the page instantly on delete
+        getOrder();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) //passing an empty array as 2nd argument makes the react know that it needs to be run only once.
 
     function getCategories() {
@@ -34,6 +39,47 @@ function Navbar() {
             })
         })
     }
+    const getOrder = async () => {
+        // console.log("Cart in basket.js is", cart);
+
+        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+
+        let parsedObject = await response.json()
+        // console.log("parsedObject", parsedObject[1]._id);
+
+        for (let i = 0; i < parsedObject.length; i++) {
+            // console.log("Ordered id of user", parsedObject[i]._id);
+            const orderId = parsedObject[i]._id
+            const id = parsedObject[i].orderedItem
+            const url = `http://localhost:8080/products/${id}`
+            let data = await fetch(url);
+            let product = await data.json()
+            dispatch({
+                type: "FILL_TO_CART",
+                item: {
+                    order_id: orderId,
+                    _id: product._id,
+                    productImage_: product.productImage,
+                    name: product.name,
+                    brandName: product.brandName,
+                    sellPrice: product.sellPrice,
+                    mrp: product.mrp,
+                    avgRating: product.avgRating,
+                    currentStock: product.currentStock,
+                    deliveryCharge: product.deliveryCharge,
+                    sellerName: product.sellerName
+                }
+            })
+        }
+        console.log("filled cart will be", filledCart[0].order_id);
+    }
+
 
     const signOut = async () => {
         // fetch("http://localhost:8080/auth/logout").then((result) => {
@@ -106,7 +152,7 @@ function Navbar() {
                             <li><a className="dropdown-item" href="/">Books</a></li>
                         </ul>
                     </div>
-                    <input className='nav-search' type="text" />
+                    <input className={darkMode ? "nav-search-dark" : 'nav-search'} type="text" />
                     <SearchIcon onClick={navFunc} type="button" className='searchIcon' style={{ fill: "black" }} />
                 </div>
 
@@ -130,21 +176,20 @@ function Navbar() {
                         <span className='cart-count'>{filledCart?.length}</span>
                     </Link>
                 </div>
-
-            </div>
-
-            <div className="header-bottom">
-                <ul>
-                    <li type="button"><MenuIcon className='menu-icon' /> All</li>
-                    {data.map((item, pos) => {
-                        return (
-                            <div key={pos}>
-                                <li type="button">{item.name}</li>
-                            </div>
-                        )
-                    })}
-                    {localStorage.getItem("token") ? <li type="button" onClick={signOut}>SignOut</li> : ""}
-                </ul>
+                <div className="header-bottom">
+                    <ul>
+                        <li type="button"><MenuIcon className='menu-icon' /> All</li>
+                        {data.map((item, pos) => {
+                            return (
+                                <div key={pos}>
+                                    <li type="button">{item.name}</li>
+                                </div>
+                            )
+                        })}
+                        {localStorage.getItem("token") ? <li type="button" onClick={signOut}>SignOut</li> : ""}
+                        <li type="button"><ThemeBtn /></li>
+                    </ul>
+                </div>
             </div>
         </>
     )

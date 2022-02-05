@@ -41,10 +41,9 @@ export default function CartProduct(props) {
             <img src={props.productImage} alt="" className="cartProduct-img" />
             <div className="cartProduct-info">
                 <h4 className='cartProduct-h'>{props.name}</h4>
-                <p>order id : {props.order_id}</p>
-                <p className='cartProduct-stock'>In stock {props.currentStock}</p>
+                <p className='cartProduct-stock'>In stock ({props.currentStock}units)</p>
                 <p className='cartProduct-seller'>Sold by {props.sellerName}</p>
-                <p className='cartProduct-delivery'>Free delivery {props.deliveryCharge}</p>
+                <p className='cartProduct-delivery'>Delivery charges - Rs {props.deliveryCharge}</p>
                 <p className='delete-btn' type="button" onClick={deleteCartItem}>Delete</p>
             </div>
             <div className="price">

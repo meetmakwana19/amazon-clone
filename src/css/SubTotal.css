@@ -1,6 +1,7 @@
 .section-right {
     display: flex;
     flex-direction: column;
+    margin-top: 40px;
 }
 
 .subtotal-box {
