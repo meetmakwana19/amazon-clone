@@ -13,7 +13,7 @@ export const getCartTotal = (filledCart) =>
     filledCart?.reduce((initialAmount, item) => item.sellPrice + initialAmount, 0);
 
 const reducer = (state, action) => {
-    console.log("Reducer action :", action.address);
+    // console.log("Reducer action :", action.address);
     switch (action.type) {
         case "SET_USER":
             return {
@@ -32,7 +32,7 @@ const reducer = (state, action) => {
                 address: action.address //updated user from the action dispatched from component like `SignIn.js`
             }
         case "ADD_TO_CART":
-            console.log("add to cart action");
+            // console.log("add to cart action");
             return {
                 ...state,
                 // return the state as it is in addition to some updates in the "cart"
@@ -52,7 +52,7 @@ const reducer = (state, action) => {
                 orderHistory: [...state.orderHistory, action.item]
             };
         case "EMPTY_CART":
-            console.log("Emptying cart");
+            // console.log("Emptying cart");
             return {
                 ...state,
                 cart: [],
