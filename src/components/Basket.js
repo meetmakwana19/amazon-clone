@@ -55,7 +55,6 @@ export default function Basket() {
                 }
             })
         }
-        console.log("filled cart will be", filledCart[0].order_id);
     }
 
     return (

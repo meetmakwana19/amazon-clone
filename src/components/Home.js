@@ -11,10 +11,43 @@ export default function Home() {
     const { darkMode } = useContext(themeContext);
 
     // state is the global context state
-    const [{ cart, user, address }, dispatch] = useStateValue();
-    console.log("State is", cart);
+    const [{ user, address }, dispatch] = useStateValue();
 
     const navigate = useNavigate();
+
+    const getAllOrders = async () => {
+        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+        let parsedObject = await response.json()
+        for (let i = 0; i < parsedObject.length; i++) {
+            const orderId = parsedObject[i]._id
+            const id = parsedObject[i].orderedItem
+            const url = `http://localhost:8080/products/${id}`
+            let data = await fetch(url);
+            let product = await data.json()
+            dispatch({
+                type: "FILL_TO_CART",
+                item: {
+                    order_id: orderId,
+                    _id: product._id,
+                    productImage_: product.productImage,
+                    name: product.name,
+                    brandName: product.brandName,
+                    sellPrice: product.sellPrice,
+                    mrp: product.mrp,
+                    avgRating: product.avgRating,
+                    currentStock: product.currentStock,
+                    deliveryCharge: product.deliveryCharge,
+                    sellerName: product.sellerName
+                }
+            })
+        }
+    }
 
     const handleOnAddToCart = async (id) => {
 
@@ -43,53 +76,17 @@ export default function Home() {
                         grandTotal: oldparsedObject.sellPrice,
                     }) // body data type must match "Content-Type" header
                 });
-                console.log(response);
-
-                const response2 = await fetch(`http://localhost:8080/order/orderedProducts`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': localStorage.getItem("token")
-                    },
-                });
-                let parsedObject = await response2.json()
-
-                // console.log("product id is", parsedObject._id);
-                // console.log(" discount is", parsedObject.mrp - parsedObject.sellPrice);
-                for (let i = 0; i < parsedObject.length; i++) {
-                    // console.log("Ordered id of user", parsedObject[i]._id);
-                    const orderId = parsedObject[i]._id
-                    const id = parsedObject[i].orderedItem
-                    const url = `http://localhost:8080/products/${id}`
-                    let data = await fetch(url);
-                    let product = await data.json()
-                    console.log("Product is", product);
-                    dispatch({ type: "EMPTY_CART" })
-                    dispatch({
-                        type: "FILL_TO_CART",
-                        item: {
-                            // order_id: parsedObject[i]._id,
-                            order_id: orderId,
-                            _id: product._id,
-                            productImage_: product.productImage,
-                            name: product.name,
-                            brandName: product.brandName,
-                            sellPrice: product.sellPrice,
-                            mrp: product.mrp,
-                            avgRating: product.avgRating,
-                            currentStock: product.currentStock,
-                            deliveryCharge: product.deliveryCharge,
-                            sellerName: product.sellerName
-                        }
-                    })
-                }
+                console.log("(Don't mind this log) Added product to ordering cart - ", response);
                 alert("Product added to cart")
+                dispatch({
+                    type: "EMPTY_CART",
+                })
+                getAllOrders()
             }
             catch (err) {
                 console.log("error is", err);
             }
         }
-
     }
 
     // An API must be called in useEffect() hook in rfc

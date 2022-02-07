@@ -10,7 +10,7 @@ export default function SignIn() {
     const [credentials, setCredentials] = useState({ email: "", password: "" })
     let navigate = useNavigate()
     const [{ user }, dispatch] = useStateValue();
-    console.log("User in signIn component", user);
+    console.log("(Don't mind this log) User is", user);
 
     const onChange = (e) => {
         // using spread operator with note means only those things will be changed in the note object which are defined after the spread operator.
@@ -30,7 +30,6 @@ export default function SignIn() {
             body: JSON.stringify({ email: credentials.email, password: credentials.password }) // body data type must match "Content-Type" header
         });
         const resp = await response.json();
-        console.log("Login response:", resp);
         if (resp.success) {
             localStorage.setItem("token", resp.authToken)
 
@@ -59,7 +58,6 @@ export default function SignIn() {
                 const user_id = resp._id
 
                 try {
-                    console.log("tyring dispatch");
                     dispatch({
                         type: "SET_USER",
                         user: userName

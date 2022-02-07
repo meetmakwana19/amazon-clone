@@ -77,12 +77,10 @@ function Navbar() {
                 }
             })
         }
-        console.log("filled cart will be", filledCart[0].order_id);
     }
 
 
     const signOut = async () => {
-        // fetch("http://localhost:8080/auth/logout").then((result) => {
         const response = await fetch("http://localhost:8080/auth/logout", {
             method: 'GET',
             headers: {
@@ -109,6 +107,48 @@ function Navbar() {
         getCategories();
     }
 
+    const getAllOrders = async () => {
+        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+
+        let parsedObject = await response.json()
+        for (let i = 0; i < parsedObject.length; i++) {
+            const orderId = parsedObject[i]._id
+            const id = parsedObject[i].orderedItem
+            const url = `http://localhost:8080/products/${id}`
+            let data = await fetch(url);
+            let product = await data.json()
+            dispatch({
+                type: "FILL_TO_CART",
+                item: {
+                    order_id: orderId,
+                    _id: product._id,
+                    productImage_: product.productImage,
+                    name: product.name,
+                    brandName: product.brandName,
+                    sellPrice: product.sellPrice,
+                    mrp: product.mrp,
+                    avgRating: product.avgRating,
+                    currentStock: product.currentStock,
+                    deliveryCharge: product.deliveryCharge,
+                    sellerName: product.sellerName
+                }
+            })
+        }
+    }
+
+    const handleOnHome = () => {
+        dispatch({
+            type: "EMPTY_CART",
+        })
+        getAllOrders()
+    }
+
     const handleAddress = () => {
 
         if (!user) {
@@ -117,12 +157,13 @@ function Navbar() {
 
         navigate("/address")
     }
+
     return (
         <>
             <div className='header navbar ' style={{ backgroundColor: "#121921", height: "3.75rem", color: "white" }}>
 
                 <div className="nav-left">
-                    <Link to="/" className="div-logo" type="button" onClick={() => { dispatch({ type: "EMPTY_CART" }) }}>
+                    <Link to="/" className="div-logo" type="button" onClick={handleOnHome}>
                         <img src="https://www.pinclipart.com/picdir/big/57-576184_view-our-amazon-storefront-amazon-logo-white-png.png" alt="" className="app-logo" style={{ width: "6.25rem" }} />
                     </Link>
                     <div className="nav-location" type="button" onClick={handleAddress}>

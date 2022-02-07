@@ -35,7 +35,45 @@ export default function CartProduct(props) {
         dispatch({
             type: "EMPTY_CART"
         })
+        getAllOrders();
     }
+
+    const getAllOrders = async () => {
+        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+
+        let parsedObject = await response.json()
+
+        for (let i = 0; i < parsedObject.length; i++) {
+            const orderId = parsedObject[i]._id
+            const id = parsedObject[i].orderedItem
+            const url = `http://localhost:8080/products/${id}`
+            let data = await fetch(url);
+            let product = await data.json()
+            dispatch({
+                type: "FILL_TO_CART",
+                item: {
+                    order_id: orderId,
+                    _id: product._id,
+                    productImage_: product.productImage,
+                    name: product.name,
+                    brandName: product.brandName,
+                    sellPrice: product.sellPrice,
+                    mrp: product.mrp,
+                    avgRating: product.avgRating,
+                    currentStock: product.currentStock,
+                    deliveryCharge: product.deliveryCharge,
+                    sellerName: product.sellerName
+                }
+            })
+        }
+    }
+
     return (
         <div className="cartProduct">
             <img src={props.productImage} alt="" className="cartProduct-img" />
