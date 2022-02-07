@@ -123,7 +123,7 @@ function Navbar() {
 
                 <div className="nav-left">
                     <Link to="/" className="div-logo" type="button" onClick={() => { dispatch({ type: "EMPTY_CART" }) }}>
-                        <img src="https://www.linkpicture.com/q/amazon-logo.png" alt="" className="app-logo" style={{ width: "6.25rem" }} />
+                        <img src="https://www.pinclipart.com/picdir/big/57-576184_view-our-amazon-storefront-amazon-logo-white-png.png" alt="" className="app-logo" style={{ width: "6.25rem" }} />
                     </Link>
                     <div className="nav-location" type="button" onClick={handleAddress}>
                         <div className="nav-icon">
@@ -186,8 +186,8 @@ function Navbar() {
                                 </div>
                             )
                         })}
-                        {localStorage.getItem("token") ? <li type="button" onClick={signOut}>SignOut</li> : ""}
                         <li type="button"><ThemeBtn /></li>
+                        {localStorage.getItem("token") ? <li type="button" onClick={signOut}>SignOut</li> : ""}
                     </ul>
                 </div>
             </div>

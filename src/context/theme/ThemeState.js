@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import themeContext from './ThemeContext'
 
 export function ThemeState(props) {
-        
+
     const [darkMode, setDarkMode] = useState(false)
 
     const handleTheme = () => {

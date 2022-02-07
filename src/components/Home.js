@@ -63,7 +63,7 @@ export default function Home() {
                     const url = `http://localhost:8080/products/${id}`
                     let data = await fetch(url);
                     let product = await data.json()
-                    // console.log("Product is", product);
+                    console.log("Product is", product);
                     dispatch({ type: "EMPTY_CART" })
                     dispatch({
                         type: "FILL_TO_CART",

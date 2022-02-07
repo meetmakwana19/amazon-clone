@@ -10,6 +10,14 @@ import { useNavigate } from 'react-router-dom';
 export default function Payment() {
 
     const [{ cart, filledCart, user, address }, dispatch] = useStateValue();
+    console.log("filled cart-", filledCart);
+    var arr = [];
+    for (let i = 0; i < filledCart.length; i++) {
+        // const orderId = filledCart[i]._id
+        console.log("filled cart product ids-", filledCart[i]._id);
+        arr.push(filledCart[i]._id)
+    }
+    console.log("array is", arr);
 
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
@@ -43,8 +51,9 @@ export default function Payment() {
                     },
                     // sending email, password in the body
                     body: JSON.stringify({
-                        user: userID,
-                        order: JSON.stringify(filledCart),
+                        // user: userID,
+                        // order: JSON.stringify(filledCart),
+                        order: arr,
                         paidAmount: getCartTotal(filledCart),
                     }) // body data type must match "Content-Type" header
                 });

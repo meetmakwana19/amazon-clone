@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useStateValue } from '../context/cart-count/CartStateContext';
 import "../css/Orders.css"
+import OrderedProduct from './OrderedProduct';
+var moment = require('moment-timezone');
 
 export default function Orders() {
 
-    const [history, setHistory] = useState(null);
+    const [{ orderHistory }, dispatch] = useStateValue();
 
     useEffect(() => {
         getOrders();
@@ -19,17 +22,78 @@ export default function Orders() {
             },
         });
         const resp = await response.json();
-        console.log("Your order history:", resp);
-        setHistory(JSON.stringify(resp))
-        console.log("histroy is", history);
+        // for mapping in newest first form
+        const resp1 = resp.reverse();
+
+        const response2 = await fetch(`http://localhost:8080/auth/getUser`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            }
+        });
+        const resp2 = await response2.json();
+        // console.log("User details:", resp);
+        const userName = resp2.name;
+
+        for (let i = 0; i < resp1.length; i++) {
+            const order = resp1[i].order
+            console.log("order productId ids", order);
+            // REFERENCE for date formatting - https://momentjs.com/timezone/ 
+            var jun = moment(resp1[i].createdAt)
+            console.log();
+            // console.log(jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY'));
+            let orderDate = jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY HH:mm');
+            console.log("product date will be", orderDate);
+
+            for (let j = 0; j < order.length; j++) {
+                const productId = order[j]
+                console.log("Product id is", productId);
+                const url = `http://localhost:8080/products/${productId}`
+                let data = await fetch(url);
+                let product = await data.json()
+                dispatch({
+                    type: "FILL_ORDER_HISTORY",
+                    item: {
+                        _id: resp1[i]._id,
+                        product_id: productId,
+                        user: userName,
+                        productImage_: product.productImage,
+                        name: product.name,
+                        brandName: product.brandName,
+                        sellPrice: product.sellPrice,
+                        mrp: product.mrp,
+                        avgRating: product.avgRating,
+                        sellerName: product.sellerName,
+                        deliveryCharge: product.deliveryCharge,
+                        date: orderDate
+                    }
+                })
+
+            }
+        }
     }
 
     return (
         <div className='orders-page'>
             <h2>Your Orders</h2>
             <div className="container">
-                {/* <input type="text" value={history} /> */}
-                {history}
+                {orderHistory.length < 1 ? <h4>No order history</h4> :
+                    orderHistory.map((item, pos) => (
+                        <OrderedProduct key={pos}
+                            _id={item._id}
+                            product_id={item.product_id}
+                            user={item.user}
+                            productImage={item.productImage_}
+                            name={item.name}
+                            sellerName={item.sellerName}
+                            sellPrice={item.sellPrice}
+                            mrp={item.mrp}
+                            deliveryCharge={item.deliveryCharge}
+                            date={item.date}
+                        />
+                    ))
+                }
             </div>
         </div>
     );

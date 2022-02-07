@@ -1,6 +1,7 @@
 export const initialState = {
     cart: [],
     filledCart: [],
+    orderHistory: [],
     user: "",
     address: "",
     user_id: "",
@@ -38,18 +39,25 @@ const reducer = (state, action) => {
                 cart: [...state.cart, action.item]
             };
         case "FILL_TO_CART":
-            console.log("fill to cart action");
+            // console.log("fill to cart action");
             return {
                 ...state,
                 // return the state as it is in addition to some updates in the "cart"
                 filledCart: [...state.filledCart, action.item]
+            };
+        case "FILL_ORDER_HISTORY":
+            return {
+                ...state,
+                // return the state as it is in addition to some updates in the "cart"
+                orderHistory: [...state.orderHistory, action.item]
             };
         case "EMPTY_CART":
             console.log("Emptying cart");
             return {
                 ...state,
                 cart: [],
-                filledCart: []
+                filledCart: [],
+                orderHistory: []
             }
 
         case "DELETE_FROM_CART":
