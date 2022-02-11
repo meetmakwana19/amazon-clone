@@ -21,7 +21,7 @@ export default function SignUp() {
         // remove them out from credentials using destructuring
         const { name, email, password } = credentials;
         // API Call
-        const response = await fetch(`http://localhost:8080/auth/createUser`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/auth/createUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

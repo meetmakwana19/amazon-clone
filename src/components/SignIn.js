@@ -21,7 +21,7 @@ export default function SignIn() {
         // to prevent page reloading
         e.preventDefault()
         // API Call
-        const response = await fetch(`http://localhost:8080/auth/login`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export default function SignIn() {
 
                 // console.log("Getting user details");
                 // API Call
-                const response = await fetch(`http://localhost:8080/auth/getUser`, {
+                const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

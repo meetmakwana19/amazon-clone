@@ -18,7 +18,7 @@ export default function CartProduct(props) {
         }
         console.log("deleting item", props._id);
 
-        const response = await fetch(`http://localhost:8080/order/${orderID}`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/${orderID}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export default function CartProduct(props) {
     }
 
     const getAllOrders = async () => {
-        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export default function CartProduct(props) {
         for (let i = 0; i < parsedObject.length; i++) {
             const orderId = parsedObject[i]._id
             const id = parsedObject[i].orderedItem
-            const url = `http://localhost:8080/products/${id}`
+            const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
             dispatch({

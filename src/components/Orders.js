@@ -14,7 +14,7 @@ export default function Orders() {
     }, []);
 
     const getOrders = async () => {
-        const response = await fetch(`http://localhost:8080/order/confirmedOrder`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmedOrder`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export default function Orders() {
         // for mapping in newest first form
         const resp1 = resp.reverse();
 
-        const response2 = await fetch(`http://localhost:8080/auth/getUser`, {
+        const response2 = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export default function Orders() {
             for (let j = 0; j < order.length; j++) {
                 const productId = order[j]
                 console.log("Product id is", productId);
-                const url = `http://localhost:8080/products/${productId}`
+                const url = `https://amizon-api.herokuapp.com/products/${productId}`
                 let data = await fetch(url);
                 let product = await data.json()
                 dispatch({

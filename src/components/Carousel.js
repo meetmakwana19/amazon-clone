@@ -15,7 +15,7 @@ export default function Carousel() {
 
     function getBanners() {
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
-        fetch("http://localhost:8080/banner").then((result) => {
+        fetch("https://amizon-api.herokuapp.com/banner").then((result) => {
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
                 setBanner(resp)

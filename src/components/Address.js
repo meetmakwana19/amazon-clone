@@ -25,7 +25,7 @@ export default function Address() {
 
     const onDone = async (e) => {
         e.preventDefault()
-        const response = await fetch(`http://localhost:8080/auth/updateUser`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/auth/updateUser`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export default function Address() {
 
     const getAddress = async () => {
         // API Call
-        const response = await fetch(`http://localhost:8080/auth/getUser`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

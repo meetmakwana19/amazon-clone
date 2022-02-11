@@ -30,7 +30,7 @@ export default function Payment() {
         event.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:8080/auth/getUser`, {
+            const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export default function Payment() {
             console.log("userName is", userID);
 
             try {
-                const response = await fetch(`http://localhost:8080/order/confirmOrder`, {
+                const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmOrder`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export default function Payment() {
         for (let i = 0; i < filledCart.length; i++) {
             const orderId = filledCart[i].order_id
             console.log("filledcart ids", orderId);
-            const response = await fetch(`http://localhost:8080/order/${orderId}`, {
+            const response = await fetch(`https://amizon-api.herokuapp.com/order/${orderId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

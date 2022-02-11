@@ -31,7 +31,7 @@ function Navbar() {
 
     function getCategories() {
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
-        fetch("http://localhost:8080/categories").then((result) => {
+        fetch("https://amizon-api.herokuapp.com/categories").then((result) => {
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
                 // console.log("Response from API is : " + resp)
@@ -42,7 +42,7 @@ function Navbar() {
     const getOrder = async () => {
         // console.log("Cart in basket.js is", cart);
 
-        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function Navbar() {
             // console.log("Ordered id of user", parsedObject[i]._id);
             const orderId = parsedObject[i]._id
             const id = parsedObject[i].orderedItem
-            const url = `http://localhost:8080/products/${id}`
+            const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
             dispatch({
@@ -81,7 +81,7 @@ function Navbar() {
 
 
     const signOut = async () => {
-        const response = await fetch("http://localhost:8080/auth/logout", {
+        const response = await fetch("https://amizon-api.herokuapp.com/auth/logout", {
             method: 'GET',
             headers: {
                 'auth-token': localStorage.getItem("token")
@@ -108,7 +108,7 @@ function Navbar() {
     }
 
     const getAllOrders = async () => {
-        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function Navbar() {
         for (let i = 0; i < parsedObject.length; i++) {
             const orderId = parsedObject[i]._id
             const id = parsedObject[i].orderedItem
-            const url = `http://localhost:8080/products/${id}`
+            const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
             dispatch({

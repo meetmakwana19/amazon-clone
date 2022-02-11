@@ -16,7 +16,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     const getAllOrders = async () => {
-        const response = await fetch(`http://localhost:8080/order/orderedProducts`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export default function Home() {
         for (let i = 0; i < parsedObject.length; i++) {
             const orderId = parsedObject[i]._id
             const id = parsedObject[i].orderedItem
-            const url = `http://localhost:8080/products/${id}`
+            const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
             dispatch({
@@ -56,12 +56,12 @@ export default function Home() {
         }
 
         else {
-            const url = `http://localhost:8080/products/${id}`
+            const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let oldparsedObject = await data.json()
 
             try {
-                const response = await fetch(`http://localhost:8080/order/placeOrder`, {
+                const response = await fetch(`https://amizon-api.herokuapp.com/order/placeOrder`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function Home() {
 
     const getAddress = async () => {
         // API Call
-        const response = await fetch(`http://localhost:8080/auth/getUser`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export default function Home() {
 
     function getProducts() {
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
-        fetch("http://localhost:8080/products").then((result) => {
+        fetch("https://amizon-api.herokuapp.com/products").then((result) => {
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
                 // console.log("Response from API is : " + resp)

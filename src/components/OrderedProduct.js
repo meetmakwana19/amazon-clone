@@ -10,7 +10,7 @@ export default function OrderedProduct(props) {
     const { darkMode } = useContext(themeContext);
 
     const handleOnBuy = async () => {
-        const response = await fetch(`http://localhost:8080/order/placeOrder`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/placeOrder`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
