@@ -3,11 +3,14 @@ import "../css/OrderedProduct.css"
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import themeContext from '../context/theme/ThemeContext';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useNavigate } from 'react-router-dom';
 
 export default function OrderedProduct(props) {
 
     const [{ address }, dispatch] = useStateValue();
     const { darkMode } = useContext(themeContext);
+    const navigate = useNavigate();
 
     // FOR NAV CART COUNT
     const getAllOrders = async () => {
@@ -69,6 +72,24 @@ export default function OrderedProduct(props) {
         getAllOrders()
     }
 
+    const handleOnRemove = async () => {
+        console.log("id of order is", props._id);
+        const orderID = props._id;
+        props.setProgress(30);
+        const response = await fetch(`http://localhost:8080/order/confirmedOrder/${orderID}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+        props.setProgress(100);
+        console.log(response);
+        alert("Order deleted")
+        navigate("/")
+        getAllOrders()
+    }
+
     return (
         <div className="cartProduct">
             <div className={darkMode ? "card bg-dark text-white" : "card"}>
@@ -98,7 +119,10 @@ export default function OrderedProduct(props) {
                         <div className="order-div-mid">
                             <p className='cartProduct-name'>{props.name}</p>
                             <p className='orderProduct-seller'>Sold by {props.sellerName}</p>
-                            <button onClick={handleOnBuy} className='buyAgain-btn'><FlipCameraAndroidIcon style={{ fontSize: 'medium' }} /> Buy it again</button>
+                            <div className="d-flex">
+                                <button onClick={handleOnBuy} className='buyAgain-btn'><FlipCameraAndroidIcon style={{ fontSize: 'medium' }} /> Buy it again</button>
+                                <button onClick={handleOnRemove} className='remove-btn mx-2'><DeleteOutlineIcon style={{ fontSize: 'medium' }} />Deprecate Order</button>
+                            </div>
                         </div>
                     </blockquote>
                 </div>

@@ -75,3 +75,17 @@
 .buyAgain-btn:hover {
     background-color: #ffc400;
 }
+
+.remove-btn {
+    width: 30%;
+    font-size: small;
+    background-color: lightgray;
+    outline: none;
+    border: none;
+    border-radius: 7px;
+    padding: 5px;
+}
+
+.remove-btn:hover {
+    background-color: rgba(182, 182, 182, 0.788);
+}
