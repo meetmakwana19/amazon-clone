@@ -57,9 +57,13 @@ const reducer = (state, action) => {
                 ...state,
                 cart: [],
                 filledCart: [],
+            }
+        case "EMPTY_ORDERS":
+            // console.log("Emptying cart");
+            return {
+                ...state,
                 orderHistory: []
             }
-
         case "DELETE_FROM_CART":
             const index = state.filledCart.findIndex(
                 // findOne func helps to find the item from cart whose id= is = to the id of action we sent. After finding it wont return back to re-iterate in the same cycle.

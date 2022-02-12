@@ -5,7 +5,7 @@ import "../css/Basket.css"
 import CartProduct from './CartProduct';
 import SubTotal from './SubTotal';
 
-export default function Basket() {
+export default function Basket(props) {
 
     const { darkMode } = useContext(themeContext);
     const [{ filledCart }, dispatch] = useStateValue();
@@ -16,10 +16,10 @@ export default function Basket() {
     }, []);
 
     const getOrder = async () => {
-        // console.log("Cart in basket.js is", cart);
+        props.setProgress(10);
 
         dispatch({ type: "EMPTY_CART" })
-
+        props.setProgress(20);
         const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',
             headers: {
@@ -27,10 +27,14 @@ export default function Basket() {
                 'auth-token': localStorage.getItem("token")
             },
         });
+        props.setProgress(30);
 
         let parsedObject = await response.json()
         // console.log("parsedObject", parsedObject[1]._id);
-
+        console.log("parsed obj lentgh", parsedObject.length);
+        if (parsedObject.length === 0) {
+            props.setProgress(100);
+        }
         for (let i = 0; i < parsedObject.length; i++) {
             // console.log("Ordered id of user", parsedObject[i]._id);
             const orderId = parsedObject[i]._id
@@ -38,6 +42,7 @@ export default function Basket() {
             const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
+            props.setProgress(50);
             dispatch({
                 type: "FILL_TO_CART",
                 item: {
@@ -54,6 +59,8 @@ export default function Basket() {
                     sellerName: product.sellerName
                 }
             })
+            props.setProgress(100);
+
         }
     }
 
@@ -62,18 +69,20 @@ export default function Basket() {
             <div className={darkMode ? "section-left bg-dark" : "section-left"}>
                 <h2 id='shopping-h'>Shopping Cart</h2>
                 {/* for every single item in cart, return the CartProduct component */}
-                {filledCart.map((item, pos) => (
-                    <CartProduct key={pos}
-                        _id={item._id}
-                        productImage={item.productImage_}
-                        name={item.name}
-                        order_id={item.order_id}
-                        currentStock={item.currentStock}
-                        sellerName={item.sellerName}
-                        deliveryCharge={item.deliveryCharge}
-                        sellPrice={item.sellPrice}
-                    />
-                ))}
+                {filledCart.length < 1 ? <h4>Empty Cart</h4> :
+                    filledCart.map((item, pos) => (
+                        <CartProduct {...props}
+                            key={pos}
+                            _id={item._id}
+                            productImage={item.productImage_}
+                            name={item.name}
+                            order_id={item.order_id}
+                            currentStock={item.currentStock}
+                            sellerName={item.sellerName}
+                            deliveryCharge={item.deliveryCharge}
+                            sellPrice={item.sellPrice}
+                        />
+                    ))}
             </div>
             <SubTotal />
         </div>

@@ -10,7 +10,7 @@ import { useStateValue } from '../context/cart-count/CartStateContext';
 import ThemeBtn from './ThemeBtn';
 import themeContext from '../context/theme/ThemeContext';
 
-function Navbar() {
+function Navbar(props) {
 
     const { darkMode } = useContext(themeContext);
     const [{ user, filledCart }, dispatch] = useStateValue();
@@ -30,16 +30,24 @@ function Navbar() {
     }, []) //passing an empty array as 2nd argument makes the react know that it needs to be run only once.
 
     function getCategories() {
+        props.setProgress(10);
+
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
         fetch("https://amizon-api.herokuapp.com/categories").then((result) => {
+            props.setProgress(30);
+
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
+                props.setProgress(60);
                 // console.log("Response from API is : " + resp)
                 setData(resp)
+                props.setProgress(100);
             })
         })
     }
     const getOrder = async () => {
+        props.setProgress(10);
+
         // console.log("Cart in basket.js is", cart);
 
         const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
@@ -49,6 +57,7 @@ function Navbar() {
                 'auth-token': localStorage.getItem("token")
             },
         });
+        props.setProgress(30);
 
         let parsedObject = await response.json()
         // console.log("parsedObject", parsedObject[1]._id);
@@ -60,6 +69,7 @@ function Navbar() {
             const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
+            props.setProgress(60);
             dispatch({
                 type: "FILL_TO_CART",
                 item: {
@@ -77,20 +87,24 @@ function Navbar() {
                 }
             })
         }
+        props.setProgress(100);
     }
 
 
     const signOut = async () => {
+        props.setProgress(10);
         const response = await fetch("https://amizon-api.herokuapp.com/auth/logout", {
             method: 'GET',
             headers: {
                 'auth-token': localStorage.getItem("token")
             },
         });
+        props.setProgress(30);
         const resp = await response.json();
         console.log(resp);
         // console.log("auth token:", localStorage.getItem("token"));
         localStorage.removeItem("token");
+        props.setProgress(60);
         dispatch({
             type: "SET_USER",
             user: "",
@@ -105,6 +119,7 @@ function Navbar() {
         console.log("auth token after sign out:", localStorage.getItem("token"));
 
         getCategories();
+        props.setProgress(100);
     }
 
     const getAllOrders = async () => {
@@ -143,19 +158,22 @@ function Navbar() {
     }
 
     const handleOnHome = () => {
+        props.setProgress(40);
         dispatch({
             type: "EMPTY_CART",
         })
         getAllOrders()
+        props.setProgress(100);
     }
 
     const handleAddress = () => {
-
+        props.setProgress(40);
         if (!user) {
             navigate("/signin")
         }
 
         navigate("/address")
+        props.setProgress(100);
     }
 
     return (

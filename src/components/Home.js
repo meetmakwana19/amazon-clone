@@ -6,7 +6,7 @@ import { useStateValue } from '../context/cart-count/CartStateContext';
 import { useNavigate } from 'react-router-dom';
 import themeContext from '../context/theme/ThemeContext';
 
-export default function Home() {
+export default function Home(props) {
     const [data, setData] = useState([])
     const { darkMode } = useContext(themeContext);
 
@@ -15,6 +15,7 @@ export default function Home() {
 
     const navigate = useNavigate();
 
+    // FOR NAV-CART COUNT
     const getAllOrders = async () => {
         const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',
@@ -56,11 +57,14 @@ export default function Home() {
         }
 
         else {
+            props.setProgress(10);
             const url = `https://amizon-api.herokuapp.com/products/${id}`
             let data = await fetch(url);
             let oldparsedObject = await data.json()
+            props.setProgress(30);
 
             try {
+                props.setProgress(40);
                 const response = await fetch(`https://amizon-api.herokuapp.com/order/placeOrder`, {
                     method: 'POST',
                     headers: {
@@ -78,10 +82,12 @@ export default function Home() {
                 });
                 console.log("(Don't mind this log) Added product to ordering cart - ", response);
                 alert("Product added to cart")
+                props.setProgress(60);
                 dispatch({
                     type: "EMPTY_CART",
                 })
                 getAllOrders()
+                props.setProgress(100);
             }
             catch (err) {
                 console.log("error is", err);
@@ -96,6 +102,7 @@ export default function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) //passing an empty array as 2nd argument makes the react know that it needs to be run only once.
 
+    // FOR ADDRESS COMPONENT 
     const getAddress = async () => {
         // API Call
         const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
@@ -113,13 +120,19 @@ export default function Home() {
     };
 
 
+    // FOR HOME PRODUCTS DISPLAY
     function getProducts() {
+        props.setProgress(10);
+
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
         fetch("https://amizon-api.herokuapp.com/products").then((result) => {
+            props.setProgress(30);
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
+                props.setProgress(60);
                 // console.log("Response from API is : " + resp)
                 setData(resp)
+                props.setProgress(100);
                 console.log("Response from API :", resp);
             })
         })

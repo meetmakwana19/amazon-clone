@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import themeContext from '../context/theme/ThemeContext';
 
-export default function SignIn() {
+export default function SignIn(props) {
 
     const { darkMode } = useContext(themeContext);
     const [credentials, setCredentials] = useState({ email: "", password: "" })
@@ -20,6 +20,7 @@ export default function SignIn() {
     const onSignIn = async (e) => {
         // to prevent page reloading
         e.preventDefault()
+        props.setProgress(80);
         // API Call
         const response = await fetch(`https://amizon-api.herokuapp.com/auth/login`, {
             method: 'POST',

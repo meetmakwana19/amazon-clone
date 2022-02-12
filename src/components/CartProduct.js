@@ -10,6 +10,7 @@ export default function CartProduct(props) {
     const navigate = useNavigate();
 
     const deleteCartItem = async () => {
+        props.setProgress(10);
         const orderID = props.order_id
         try {
             console.log("deleting order", orderID);
@@ -17,7 +18,7 @@ export default function CartProduct(props) {
             console.log("cannot order id", error);
         }
         console.log("deleting item", props._id);
-
+        props.setProgress(30);
         const response = await fetch(`https://amizon-api.herokuapp.com/order/${orderID}`, {
             method: 'DELETE',
             headers: {
@@ -25,6 +26,7 @@ export default function CartProduct(props) {
                 'auth-token': localStorage.getItem("token")
             }
         });
+        props.setProgress(100);
         console.log(response);
         dispatch({
             type: "DELETE_FROM_CART",
@@ -38,6 +40,7 @@ export default function CartProduct(props) {
         getAllOrders();
     }
 
+    // FOR NAV CART COUNT
     const getAllOrders = async () => {
         const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',

@@ -4,7 +4,7 @@ import "../css/Orders.css"
 import OrderedProduct from './OrderedProduct';
 var moment = require('moment-timezone');
 
-export default function Orders() {
+export default function Orders(props) {
 
     const [{ orderHistory }, dispatch] = useStateValue();
 
@@ -14,6 +14,8 @@ export default function Orders() {
     }, []);
 
     const getOrders = async () => {
+        dispatch({ type: "EMPTY_ORDERS" })
+        props.setProgress(10);
         const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmedOrder`, {
             method: 'GET',
             headers: {
@@ -21,6 +23,7 @@ export default function Orders() {
                 'auth-token': localStorage.getItem("token")
             },
         });
+        props.setProgress(30);
         const resp = await response.json();
         // for mapping in newest first form
         const resp1 = resp.reverse();
@@ -32,6 +35,7 @@ export default function Orders() {
                 'auth-token': localStorage.getItem("token")
             }
         });
+        props.setProgress(50);
         const resp2 = await response2.json();
         // console.log("User details:", resp);
         const userName = resp2.name;
@@ -45,7 +49,7 @@ export default function Orders() {
             // console.log(jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY'));
             let orderDate = jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY HH:mm');
             console.log("product date will be", orderDate);
-
+            props.setProgress(70);
             for (let j = 0; j < order.length; j++) {
                 const productId = order[j]
                 console.log("Product id is", productId);
@@ -72,6 +76,7 @@ export default function Orders() {
 
             }
         }
+        props.setProgress(100);
     }
 
     return (
@@ -80,7 +85,8 @@ export default function Orders() {
             <div className="container">
                 {orderHistory.length < 1 ? <h4>No order history</h4> :
                     orderHistory.map((item, pos) => (
-                        <OrderedProduct key={pos}
+                        <OrderedProduct {...props}
+                            key={pos}
                             _id={item._id}
                             product_id={item.product_id}
                             user={item.user}

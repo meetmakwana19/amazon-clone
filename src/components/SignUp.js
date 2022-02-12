@@ -3,7 +3,7 @@ import '../css/SignIn.css';
 import { Link, useNavigate } from 'react-router-dom'
 import themeContext from '../context/theme/ThemeContext';
 
-export default function SignUp() {
+export default function SignUp(props) {
 
     const { darkMode } = useContext(themeContext);
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "" })
@@ -18,6 +18,7 @@ export default function SignUp() {
     const onSignIn = async (e) => {
         // to prevent page reloading
         e.preventDefault()
+        props.setProgress(80);
         // remove them out from credentials using destructuring
         const { name, email, password } = credentials;
         // API Call

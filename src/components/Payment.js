@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { getCartTotal } from '../state/reducers/reducer';
 import { useNavigate } from 'react-router-dom';
 
-export default function Payment() {
+export default function Payment(props) {
 
     const [{ cart, filledCart, user, address }, dispatch] = useStateValue();
     console.log("filled cart-", filledCart);
@@ -30,48 +30,31 @@ export default function Payment() {
         event.preventDefault();
 
         try {
-            const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
-                method: 'GET',
+            props.setProgress(30);
+            const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmOrder`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'auth-token': localStorage.getItem("token")
-                }
+                },
+                body: JSON.stringify({
+                    order: arr,
+                    paidAmount: getCartTotal(filledCart),
+                })
             });
-            const resp = await response.json();
-            console.log("User details:", resp);
-            const userID = resp._id;
-            console.log("userName is", userID);
-
-            try {
-                const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmOrder`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'auth-token': localStorage.getItem("token")
-                    },
-                    // sending email, password in the body
-                    body: JSON.stringify({
-                        // user: userID,
-                        // order: JSON.stringify(filledCart),
-                        order: arr,
-                        paidAmount: getCartTotal(filledCart),
-                    }) // body data type must match "Content-Type" header
-                });
-                console.log("saving order", response._id);
-            }
-            catch (err) {
-                console.log("error is", err);
-            }
-            dispatch({
-                type: "EMPTY_CART"
-            })
-            alert("Order Placed")
-            navigate("/", { replace: true })
-            emptyCart();
+            props.setProgress(60);
+            console.log("saving order", response._id);
         }
         catch (err) {
-            console.log("error for placing order is", err);
+            console.log("error is", err);
         }
+        dispatch({
+            type: "EMPTY_CART"
+        })
+        alert("Order Placed")
+        navigate("/", { replace: true })
+        props.setProgress(100);
+        emptyCart();
     }
 
     const emptyCart = async () => {

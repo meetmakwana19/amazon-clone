@@ -6,10 +6,49 @@ import themeContext from '../context/theme/ThemeContext';
 
 export default function OrderedProduct(props) {
 
-    const [{ address }] = useStateValue();
+    const [{ address }, dispatch] = useStateValue();
     const { darkMode } = useContext(themeContext);
 
+    // FOR NAV CART COUNT
+    const getAllOrders = async () => {
+        dispatch({ type: "EMPTY_CART" })
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            },
+        });
+
+        let parsedObject = await response.json()
+
+        for (let i = 0; i < parsedObject.length; i++) {
+            const orderId = parsedObject[i]._id
+            const id = parsedObject[i].orderedItem
+            const url = `https://amizon-api.herokuapp.com/products/${id}`
+            let data = await fetch(url);
+            let product = await data.json()
+            dispatch({
+                type: "FILL_TO_CART",
+                item: {
+                    order_id: orderId,
+                    _id: product._id,
+                    productImage_: product.productImage,
+                    name: product.name,
+                    brandName: product.brandName,
+                    sellPrice: product.sellPrice,
+                    mrp: product.mrp,
+                    avgRating: product.avgRating,
+                    currentStock: product.currentStock,
+                    deliveryCharge: product.deliveryCharge,
+                    sellerName: product.sellerName
+                }
+            })
+        }
+    }
+
     const handleOnBuy = async () => {
+        props.setProgress(30);
         const response = await fetch(`https://amizon-api.herokuapp.com/order/placeOrder`, {
             method: 'POST',
             headers: {
@@ -24,10 +63,12 @@ export default function OrderedProduct(props) {
                 grandTotal: props.sellPrice,
             }) // body data type must match "Content-Type" header
         });
+        props.setProgress(100);
         console.log(response);
         alert("Product added to cart")
-
+        getAllOrders()
     }
+
     return (
         <div className="cartProduct">
             <div className={darkMode ? "card bg-dark text-white" : "card"}>
