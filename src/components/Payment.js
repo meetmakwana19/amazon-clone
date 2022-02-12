@@ -40,6 +40,7 @@ export default function Payment(props) {
                 body: JSON.stringify({
                     order: arr,
                     paidAmount: getCartTotal(filledCart),
+                    shippingAddress: address,
                 })
             });
             props.setProgress(60);
