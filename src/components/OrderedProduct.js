@@ -76,7 +76,7 @@ export default function OrderedProduct(props) {
         console.log("id of order is", props._id);
         const orderID = props._id;
         props.setProgress(30);
-        const response = await fetch(`http://localhost:8080/order/confirmedOrder/${orderID}`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmedOrder/${orderID}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
