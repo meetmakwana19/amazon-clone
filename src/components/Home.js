@@ -11,7 +11,7 @@ export default function Home(props) {
     const { darkMode } = useContext(themeContext);
 
     // state is the global context state
-    const [{ user, address }, dispatch] = useStateValue();
+    const [{ user }, dispatch] = useStateValue();
 
     const navigate = useNavigate();
 
@@ -76,7 +76,6 @@ export default function Home(props) {
                         orderedItem: oldparsedObject._id,
                         orderItemTotal: oldparsedObject.sellPrice,
                         discount: oldparsedObject.mrp - oldparsedObject.sellPrice,
-                        shippingAddress: address,
                         grandTotal: oldparsedObject.sellPrice,
                     }) // body data type must match "Content-Type" header
                 });
