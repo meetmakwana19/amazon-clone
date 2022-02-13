@@ -42,17 +42,16 @@ export default function Orders(props) {
 
         for (let i = 0; i < resp1.length; i++) {
             const order = resp1[i].order
-            console.log("order productId ids", order);
+            // console.log("order productId ids", order);
             // REFERENCE for date formatting - https://momentjs.com/timezone/ 
             var jun = moment(resp1[i].createdAt)
-            console.log();
             // console.log(jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY'));
             let orderDate = jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY HH:mm');
-            console.log("product date will be", orderDate);
+            // console.log("product date will be", orderDate);
             props.setProgress(70);
             for (let j = 0; j < order.length; j++) {
                 const productId = order[j]
-                console.log("Product id is", productId);
+                // console.log("Product id is", productId);
                 const url = `https://amizon-api.herokuapp.com/products/${productId}`
                 let data = await fetch(url);
                 let product = await data.json()
