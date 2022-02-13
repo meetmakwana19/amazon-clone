@@ -40,7 +40,7 @@
 }
 
 .cartProduct-image {
-    width: 10%;
+    width: 13%;
     border: 16px solid white;
 }
 
@@ -88,4 +88,15 @@
 
 .remove-btn:hover {
     background-color: rgba(182, 182, 182, 0.788);
+}
+
+.btn-light {
+    border: 1px solid lightgray;
+    font-size: small;
+    border-radius: 7px;
+    float: right;
+}
+
+.btn-light:hover {
+    background-color: rgb(238, 238, 238);
 }
