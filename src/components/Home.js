@@ -145,7 +145,7 @@ export default function Home(props) {
         dispatch({ type: "EMPTY_REVIEW" })
 
         // API Call
-        const response = await fetch(`http://localhost:8080/review/product/${id}`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/review/product/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
