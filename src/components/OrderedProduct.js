@@ -16,6 +16,10 @@ export default function OrderedProduct(props) {
     const navigate = useNavigate();
     const refClose = useRef(null)
 
+    const onChange = (e) => {
+        setReviews({ ...reviews, [e.target.id]: e.target.value })
+    }
+
     // on Review submit
     const onSubmit = async (e) => {
 
@@ -23,7 +27,7 @@ export default function OrderedProduct(props) {
         e.preventDefault()
         props.setProgress(30);
         // API Call
-        const response = await fetch(`http://localhost:8080/review/placereview`, {
+        const response = await fetch(`https://amizon-api.herokuapp.com/review/placereview`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -175,15 +179,15 @@ export default function OrderedProduct(props) {
                                                 <form action='submit' id='review-form'>
                                                     <div className="mb-3">
                                                         <label htmlFor="exampleInputEmail1" className="form-label">Overrall rating <Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /> </label>
-                                                        <input type="number" step="any" className="form-control" id="rating" />
+                                                        <input type="number" step="any" className="form-control" id="rating" onChange={onChange} />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="exampleInputEmail1" className="form-label">Add a headline</label>
-                                                        <input type="text" className="form-control" id="headline" />
+                                                        <input type="text" className="form-control" id="headline" onChange={onChange} />
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="exampleInputEmail1" className="form-label">Write review</label>
-                                                        <textarea className="form-control" id='review'  ></textarea>
+                                                        <textarea className="form-control" id='review' onChange={onChange}></textarea>
                                                     </div>
                                                 </form>
                                             </div>
