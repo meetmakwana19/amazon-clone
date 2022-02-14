@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import themeContext from '../context/theme/ThemeContext';
 import Review from './Review';
 import Spinner from './Spinner';
+var moment = require('moment-timezone');
 
 export default function Home(props) {
     const [data, setData] = useState([])
@@ -143,8 +144,6 @@ export default function Home(props) {
     const getReviews = async (id) => {
         dispatch({ type: "EMPTY_REVIEW" })
 
-        // console.log("product id", id);
-        // props.setProgress(30);
         // API Call
         const response = await fetch(`http://localhost:8080/review/product/${id}`, {
             method: 'GET',
@@ -154,13 +153,13 @@ export default function Home(props) {
             }
         });
         setLoading(true)
-        // props.setProgress(60);
         const resp = await response.json();
-        // console.log(resp);
-        // props.setProgress(100);
 
         for (let i = 0; i < resp.length; i++) {
             // console.log("single review", resp[i].headline);
+
+            var jun = moment(resp[i].createdAt)
+            let reviewDate = jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY');
 
             const userID = resp[i].user;
             const response2 = await fetch(`https://amizon-api.herokuapp.com/auth/getUsername/${userID}`, {
@@ -179,6 +178,7 @@ export default function Home(props) {
                     headline: resp[i].headline,
                     rating: resp[i].rating,
                     review: resp[i].review,
+                    date: reviewDate
                 }
             })
 
@@ -205,7 +205,7 @@ export default function Home(props) {
                                             starSpacing="1px"
                                             starRatedColor="#fea31d" />
                                         {/* <!-- Button trigger modal --> */}
-                                        <button type="button" className="p-0 mx-2 mt-n3" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => getReviews(item._id)}>View Reviews</button>
+                                        <button type="button" className={darkMode ? "bg-dark p-0 mx-2 mt-n3" : "p-0 mx-2 mt-n3"} data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => getReviews(item._id)}>View Reviews</button>
                                     </div>
 
                                     <p className="sellPrice">
@@ -218,10 +218,10 @@ export default function Home(props) {
 
                                     {/* <!-- Modal --> */}
                                     <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div className="modal-dialog">
+                                        <div className="modal-dialog bg-dark">
                                             <div className="modal-content">
                                                 <div className="modal-header">
-                                                    <h5 className="modal-title" id="exampleModalLabel">Customer Reviews</h5>
+                                                    <h5 className={darkMode ? "modal-title text-black" : "modal-title "} id="exampleModalLabel">Customer Reviews</h5>
                                                     <button type="button" className="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div className="modal-body">
@@ -236,6 +236,7 @@ export default function Home(props) {
                                                                 headline={item.headline}
                                                                 rating={item.rating}
                                                                 review={item.review}
+                                                                date={item.date}
                                                             />
                                                         ))
                                                     }
