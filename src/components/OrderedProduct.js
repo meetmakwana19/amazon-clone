@@ -47,7 +47,6 @@ export default function OrderedProduct(props) {
         document.getElementById("review-form").reset();
     }
 
-
     // FOR NAV CART COUNT
     const getAllOrders = async () => {
         dispatch({ type: "EMPTY_CART" })
@@ -160,13 +159,13 @@ export default function OrderedProduct(props) {
                                 <button onClick={handleOnBuy} className='buyAgain-btn'><FlipCameraAndroidIcon style={{ fontSize: 'medium' }} /> Buy it again</button>
 
                                 {/* <!-- Button trigger modal --> */}
-                                <button type="button" className="btn btn-light px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" className="btn btn-light px-4" data-bs-toggle="modal" data-bs-target="#exampleModal" >
                                     Write product review
                                 </button>
 
                                 {/* <!-- Modal --> */}
                                 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div className="modal-dialog">
+                                    <div className={darkMode ? "modal-dialog text-dark" : "modal-dialog"}>
                                         <div className="modal-content">
                                             <div className="modal-header">
                                                 <h3 className="modal-title" id="exampleModalLabel">Create review</h3>
