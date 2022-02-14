@@ -5,13 +5,16 @@ import StarRatings from 'react-star-ratings';
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import { useNavigate } from 'react-router-dom';
 import themeContext from '../context/theme/ThemeContext';
+import Review from './Review';
+import Spinner from './Spinner';
 
 export default function Home(props) {
     const [data, setData] = useState([])
     const { darkMode } = useContext(themeContext);
+    const [loading, setLoading] = useState(false)
 
     // state is the global context state
-    const [{ user }, dispatch] = useStateValue();
+    const [{ user, reviewsList }, dispatch] = useStateValue();
 
     const navigate = useNavigate();
 
@@ -137,6 +140,53 @@ export default function Home(props) {
         })
     }
 
+    const getReviews = async (id) => {
+        dispatch({ type: "EMPTY_REVIEW" })
+
+        // console.log("product id", id);
+        // props.setProgress(30);
+        // API Call
+        const response = await fetch(`http://localhost:8080/review/product/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem("token")
+            }
+        });
+        setLoading(true)
+        // props.setProgress(60);
+        const resp = await response.json();
+        // console.log(resp);
+        // props.setProgress(100);
+
+        for (let i = 0; i < resp.length; i++) {
+            // console.log("single review", resp[i].headline);
+
+            const userID = resp[i].user;
+            const response2 = await fetch(`https://amizon-api.herokuapp.com/auth/getUsername/${userID}`, {
+                method: 'GET',
+            });
+            const resp2 = await response2.json();
+            const userName = resp2.name
+            // console.log("resp3 is", userName);
+
+            dispatch({
+                type: "FILL_REVIEW",
+                item: {
+                    _id: resp[i]._id,
+                    user: userName,
+                    product: resp[i].product,
+                    headline: resp[i].headline,
+                    rating: resp[i].rating,
+                    review: resp[i].review,
+                }
+            })
+
+        }
+        setLoading(false)
+        // console.log("review list is", reviewsList);
+    }
+
     return (
         <div className='home'>
             <Carousel />
@@ -154,7 +204,10 @@ export default function Home(props) {
                                             starDimension="20px"
                                             starSpacing="1px"
                                             starRatedColor="#fea31d" />
+                                        {/* <!-- Button trigger modal --> */}
+                                        <button type="button" className="p-0 mx-2 mt-n3" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => getReviews(item._id)}>View Reviews</button>
                                     </div>
+
                                     <p className="sellPrice">
                                         <small>₹</small>
                                         <p className='sellPrice-p'>{item.sellPrice}</p>
@@ -162,6 +215,34 @@ export default function Home(props) {
                                     </p>
                                     <img id='prime-logo' src="https://seeklogo.com/images/A/amazon-prime-icon-logo-484A50E84F-seeklogo.com.png" width="42" height="12" alt="" />
                                     <button className={darkMode ? "bg-dark" : null} onClick={() => { handleOnAddToCart(item._id) }} type="button">Add to Basket</button>
+
+                                    {/* <!-- Modal --> */}
+                                    <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="exampleModalLabel">Customer Reviews</h5>
+                                                    <button type="button" className="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    {loading && <Spinner />}
+                                                    {reviewsList.length < 1 ? <h4>No reviews yet</h4> :
+                                                        reviewsList.map((item, pos) => (
+                                                            <Review
+                                                                key={pos}
+                                                                _id={item._id}
+                                                                user={item.user}
+                                                                product={item.product}
+                                                                headline={item.headline}
+                                                                rating={item.rating}
+                                                                review={item.review}
+                                                            />
+                                                        ))
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )

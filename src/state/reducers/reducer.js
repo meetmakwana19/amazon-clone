@@ -2,6 +2,7 @@ export const initialState = {
     cart: [],
     filledCart: [],
     orderHistory: [],
+    reviewsList: [],
     user: "",
     address: "",
     user_id: "",
@@ -51,6 +52,18 @@ const reducer = (state, action) => {
                 // return the state as it is in addition to some updates in the "cart"
                 orderHistory: [...state.orderHistory, action.item]
             };
+        case "FILL_REVIEW":
+            return {
+                ...state,
+                // return the state as it is in addition to some updates in the "cart"
+                reviewsList: [...state.reviewsList, action.item]
+            };
+        case "EMPTY_REVIEW":
+            // console.log("Emptying cart");
+            return {
+                ...state,
+                reviewsList: [],
+            }
         case "EMPTY_CART":
             // console.log("Emptying cart");
             return {
