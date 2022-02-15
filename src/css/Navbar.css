@@ -329,3 +329,37 @@
 .theme:hover {
     color: #f08804;
 }
+
+#offcanvas-items-ul {
+    display: block;
+}
+
+#offcanvas-items-ul-dark {
+    display: block;
+}
+
+#offcanvas-items-ul li {
+    border: 0;
+    font-weight: normal;
+    font-size: medium;
+    margin: 0;
+    padding: 5px 30px;
+    display: block;
+}
+
+#offcanvas-items-ul-dark li {
+    border: 0;
+    font-weight: normal;
+    font-size: medium;
+    margin: 0;
+    padding: 5px 30px;
+    display: block;
+}
+
+#offcanvas-items-ul li:hover {
+    background-color: lightgray;
+}
+
+#offcanvas-items-ul-dark li:hover {
+    background-color: gray;
+}

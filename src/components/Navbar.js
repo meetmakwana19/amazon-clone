@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import ThemeBtn from './ThemeBtn';
 import themeContext from '../context/theme/ThemeContext';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Navbar(props) {
 
@@ -236,7 +237,34 @@ function Navbar(props) {
                 </div>
                 <div className="header-bottom">
                     <ul>
-                        <li type="button"><MenuIcon className='menu-icon' /> All</li>
+                        <li type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><MenuIcon className='menu-icon' /> All</li>
+
+                        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                            <div class="offcanvas-header" style={{ backgroundColor: "#232f3f" }}>
+                                <h5 class="offcanvas-title" id="offcanvasExampleLabel"><AccountCircleIcon style={{ fontSize: 'xx-large', color: "" }} /> Hello, {user ? user.split(" ")[0] : "Guest"}</h5>
+                                <button type="button" class="btn-close text-reset btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class={darkMode ? "offcanvas-body text-black p-0 bg-dark text-white " : "offcanvas-body text-black p-0"} id='offcanvas-items'>
+                                <div>
+                                    <h4 style={{ padding: "0 30px", paddingTop: "30px" }}><b>Shop by department</b></h4>
+                                    <ul id={darkMode ? 'offcanvas-items-ul-dark' : 'offcanvas-items-ul'}>
+                                        <li type="button">Mobile, Computers</li>
+                                        <li type="button">TV, Appliances, Electronics</li>
+                                        <li type="button">Men's Fashion</li>
+                                        <li type="button">Women's Fashion</li>
+                                        <li type="button">Toys & Games</li>
+                                        <li type="button">Sign out</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style={{ padding: "0 30px", paddingTop: "30px" }}><b>Help</b></h4>
+                                    <ul id={darkMode ? 'offcanvas-items-ul-dark' : 'offcanvas-items-ul'}>
+                                        <li type="button">Customer Service</li>
+                                        <li type="button">Sign out</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         {data.map((item, pos) => {
                             return (
                                 <div key={pos}>
