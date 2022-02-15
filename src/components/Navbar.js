@@ -166,7 +166,6 @@ function Navbar(props) {
     }
 
     const handleAddress = () => {
-        props.setProgress(40);
         if (!user) {
             navigate("/signin")
         }
