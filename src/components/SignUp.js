@@ -2,11 +2,14 @@ import React, { useContext, useState } from 'react';
 import '../css/SignIn.css';
 import { Link, useNavigate } from 'react-router-dom'
 import themeContext from '../context/theme/ThemeContext';
+import { useStateValue } from '../context/cart-count/CartStateContext';
 
 export default function SignUp(props) {
 
     const { darkMode } = useContext(themeContext);
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "" })
+    const [{ user }, dispatch] = useStateValue();
+    console.log("(Don't mind this log) User is", user);
 
     let navigate = useNavigate()
 
@@ -15,7 +18,7 @@ export default function SignUp(props) {
         setCredentials({ ...credentials, [e.target.id]: e.target.value })
     }
 
-    const onSignIn = async (e) => {
+    const onSignUp = async (e) => {
         // to prevent page reloading
         e.preventDefault()
         props.setProgress(80);
@@ -40,11 +43,41 @@ export default function SignUp(props) {
             navigate("/")
             alert("Account created successfully")
 
-            // DISPATCH
+            const getUser = async () => {
+                // console.log("Getting user details");
+                // API Call
+                const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': localStorage.getItem("token")
+                    }
+                });
+                const resp = await response.json();
+                // console.log("User details:", resp);
+                // console.log(response);
+                const userName = resp.name;
+                console.log("userName is", userName);
+                const user_id = resp._id
+
+                try {
+                    dispatch({
+                        type: "SET_USER",
+                        user: userName
+                    })
+                    dispatch({
+                        type: "SET_USER_ID",
+                        user: user_id
+                    })
+                    // console.log("user id", user_id);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            getUser();
         }
         else {
             // alert('User already exists with this email')
-            // props.showAlert_prop("User already exists with this email", "danger")
             alert("User already exists with this email")
         }
     }
@@ -69,7 +102,7 @@ export default function SignUp(props) {
                     <input className={darkMode ? 'bg-secondary text-white' : null} type="password" value={credentials.password} onChange={onChange} id='password' />
                     <div id="emailHelp" class="form-text">Password must be of minimum 5 characters.</div>
 
-                    <button disabled={credentials.name.length < 3 || credentials.email.length < 5 || credentials.password.length < 6} className='signin-btn' onClick={onSignIn}>Sign-up</button>
+                    <button disabled={credentials.name.length < 3 || credentials.email.length < 5 || credentials.password.length < 6} className='signin-btn' onClick={onSignUp}>Sign-up</button>
 
                     <p>By continuing, you agree to Amazon clone's <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_condition_of_use?ie=UTF8&nodeId=200545940"> Conditions of Use</a> and <a className='anchors' target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html/ref=ap_signin_notification_privacy_notice?ie=UTF8&nodeId=200534380">Privacy Notice.</a></p>
 
