@@ -29,33 +29,40 @@ export default function Payment(props) {
 
         event.preventDefault();
 
-        try {
-            props.setProgress(30);
-            const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmOrder`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': localStorage.getItem("token")
-                },
-                body: JSON.stringify({
-                    order: arr,
-                    paidAmount: getCartTotal(filledCart),
-                    shippingAddress: address,
-                })
-            });
-            props.setProgress(60);
-            console.log("saving order", response._id);
+        if (!address) {
+            alert("PLease add your shipping address before placing the order")
+            navigate("/address")
         }
-        catch (err) {
-            console.log("error is", err);
+        else {
+
+            try {
+                props.setProgress(30);
+                const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmOrder`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': localStorage.getItem("token")
+                    },
+                    body: JSON.stringify({
+                        order: arr,
+                        paidAmount: getCartTotal(filledCart),
+                        shippingAddress: address,
+                    })
+                });
+                props.setProgress(60);
+                console.log("saving order", response._id);
+            }
+            catch (err) {
+                console.log("error is", err);
+            }
+            dispatch({
+                type: "EMPTY_CART"
+            })
+            alert("Order Placed")
+            navigate("/", { replace: true })
+            props.setProgress(100);
+            emptyCart();
         }
-        dispatch({
-            type: "EMPTY_CART"
-        })
-        alert("Order Placed")
-        navigate("/", { replace: true })
-        props.setProgress(100);
-        emptyCart();
     }
 
     const emptyCart = async () => {
@@ -105,7 +112,7 @@ export default function Payment(props) {
                         <h4 className='section-title'>Delivery address</h4>
                         <div className="section-content">
                             <p>{user}</p>
-                            <p className='p-address'>{address}</p>
+                            <p className='p-address'>{address ? address : <b className="text-danger">PLease add your shipping address before placing the order</b>}</p>
                         </div>
                     </div>
 
