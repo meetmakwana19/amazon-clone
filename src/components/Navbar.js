@@ -253,14 +253,14 @@ function Navbar(props) {
                                         <li type="button">Men's Fashion</li>
                                         <li type="button">Women's Fashion</li>
                                         <li type="button">Toys & Games</li>
-                                        <li type="button">Sign out</li>
                                     </ul>
                                 </div>
                                 <div>
                                     <h4 style={{ padding: "0 30px", paddingTop: "30px" }}><b>Help</b></h4>
                                     <ul id={darkMode ? 'offcanvas-items-ul-dark' : 'offcanvas-items-ul'}>
-                                        <li type="button">Customer Service</li>
-                                        <li type="button">Sign out</li>
+                                        <li type="button"><a target="_blank" rel="noreferrer" href="https://www.amazon.in/gp/help/customer/display.html?nodeId=508510&ref_=nav_em_cs_help_0_1_1_31" style={{ textDecoration: "none" }} className={darkMode ? "text-white" : "text-black"}>Customer Service</a></li>
+                                        {localStorage.getItem("token") ? <li type="button" onClick={signOut}>Sign Out</li> : ""}
+
                                     </ul>
                                 </div>
                             </div>
