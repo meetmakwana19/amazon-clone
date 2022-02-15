@@ -54,10 +54,7 @@ export default function SignUp(props) {
                     }
                 });
                 const resp = await response.json();
-                // console.log("User details:", resp);
-                // console.log(response);
                 const userName = resp.name;
-                console.log("userName is", userName);
                 const user_id = resp._id
 
                 try {
