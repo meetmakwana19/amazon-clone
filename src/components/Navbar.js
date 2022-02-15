@@ -14,14 +14,13 @@ function Navbar(props) {
 
     const { darkMode } = useContext(themeContext);
     const [{ user, filledCart }, dispatch] = useStateValue();
+    const navigate = useNavigate();
 
     const navFunc = () => {
         console.log("Here");
     }
 
     const [data, setData] = useState([])
-    const navigate = useNavigate();
-
     // An API must be called in useEffect() hook in rfc
     useEffect(() => {
         getCategories() //this is to call again the function to update the page instantly on delete
@@ -171,9 +170,10 @@ function Navbar(props) {
         if (!user) {
             navigate("/signin")
         }
-
-        navigate("/address")
-        props.setProgress(100);
+        else {
+            navigate("/address")
+            props.setProgress(100);
+        }
     }
 
     return (
