@@ -1,25 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Carousel from './Carousel';
-import "../css/Home.css"
-import StarRatings from 'react-star-ratings';
-import { useStateValue } from '../context/cart-count/CartStateContext';
+import React, { useContext, useEffect, useState } from 'react'
+import "../../css/Mobiles.css"
 import { useNavigate } from 'react-router-dom';
-import themeContext from '../context/theme/ThemeContext';
-import Review from './Review';
-import Spinner from './Spinner';
+import { useStateValue } from '../../context/cart-count/CartStateContext';
+import themeContext from '../../context/theme/ThemeContext';
+import Spinner from '../Spinner';
+import StarRatings from 'react-star-ratings';
+import Review from '../Review';
 var moment = require('moment-timezone');
 
-export default function Home(props) {
+function Mobiles(props) {
     const [data, setData] = useState([])
     const { darkMode } = useContext(themeContext);
     const [loading, setLoading] = useState(false)
-
-    // state is the global context state
     const [{ user, reviewsList }, dispatch] = useStateValue();
-
     const navigate = useNavigate();
 
-    // FOR NAV-CART COUNT
     const getAllOrders = async () => {
         const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
             method: 'GET',
@@ -101,34 +96,15 @@ export default function Home(props) {
     // An API must be called in useEffect() hook in rfc
     useEffect(() => {
         getProducts(); //this is to call again the function to update the page instantly on delete
-        getAddress();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) //passing an empty array as 2nd argument makes the react know that it needs to be run only once.
 
-    // FOR ADDRESS COMPONENT 
-    const getAddress = async () => {
-        // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem("token")
-            }
-        });
-        const resp = await response.json();
-        dispatch({
-            type: "SET_ADDRESS",
-            address: resp.address
-        })
-    };
-
-
-    // FOR HOME PRODUCTS DISPLAY
     function getProducts() {
         props.setProgress(10);
 
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
-        fetch("https://amizon-api.herokuapp.com/products").then((result) => {
+        const categoryID = "61ec6358a4fed048d2d9e960"
+        fetch(`https://amizon-api.herokuapp.com/categories/${categoryID}/products`).then((result) => {
             props.setProgress(30);
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
@@ -187,69 +163,71 @@ export default function Home(props) {
         // console.log("review list is", reviewsList);
     }
 
+
     return (
-        <div className='home'>
-            <Carousel />
-            <div className="sub-home">
-                <div className="row">
-                    {data.map((item, pos) => {
-                        return (
-                            <div className='col-md-4' key={pos}>
-                                <div className={darkMode ? "card-item bg-dark border-light text-white" : "card-item"}>
-                                    <img src={item.productImage} alt="" className='productImage' />
-                                    <p className="card-item-name">{item.name}</p>
-                                    <div className="rating">
-                                        <StarRatings
-                                            rating={item.avgRating}
-                                            starDimension="20px"
-                                            starSpacing="1px"
-                                            starRatedColor="#fea31d" />
-                                        {/* <!-- Button trigger modal --> */}
-                                        <button type="button" className={darkMode ? "bg-dark p-0 mx-2 mt-n3" : "p-0 mx-2 mt-n3"} data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => getReviews(item._id)}>View Reviews</button>
-                                    </div>
+        <>
+            <div className="row">
+                {data.map((item, pos) => {
+                    return (
+                        <div className='col-md-4' key={pos}>
+                            <div className={darkMode ? "card-item bg-dark border-light text-white" : "card-item"}>
+                                <img src={item.productImage} alt="" className='productImage' />
+                                <p className="card-item-name">{item.name}</p>
+                                <div className="rating">
+                                    <StarRatings
+                                        rating={item.avgRating}
+                                        starDimension="20px"
+                                        starSpacing="1px"
+                                        starRatedColor="#fea31d" />
+                                    {/* <!-- Button trigger modal --> */}
+                                    <button type="button" className={darkMode ? "bg-dark p-0 mx-2 mt-n3" : "p-0 mx-2 mt-n3"} data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => getReviews(item._id)}>View Reviews</button>
+                                </div>
 
-                                    <p className="sellPrice">
-                                        <small>₹</small>
-                                        <p className='sellPrice-p'>{item.sellPrice}</p>
-                                        <p className='mrp'>₹{item.mrp}</p>
-                                    </p>
-                                    {item.isPrime ? <img id='prime-logo' src="https://seeklogo.com/images/A/amazon-prime-icon-logo-484A50E84F-seeklogo.com.png" width="42" height="12" alt="" /> : null}
-                                    <button className={darkMode ? "bg-dark" : null} onClick={() => { handleOnAddToCart(item._id) }} type="button">Add to Basket</button>
+                                <p className="sellPrice">
+                                    <small>₹</small>
+                                    <p className='sellPrice-p'>{item.sellPrice}</p>
+                                    <p className='mrp'>₹{item.mrp}</p>
+                                </p>
+                                {item.isPrime ? <img id='prime-logo' src="https://seeklogo.com/images/A/amazon-prime-icon-logo-484A50E84F-seeklogo.com.png" width="42" height="12" alt="" /> : null}
+                                <button className={darkMode ? "bg-dark" : null} onClick={() => { handleOnAddToCart(item._id) }} type="button">Add to Basket</button>
 
-                                    {/* <!-- Modal --> */}
-                                    <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div className="modal-dialog bg-dark">
-                                            <div className="modal-content">
-                                                <div className="modal-header">
-                                                    <h5 className={darkMode ? "modal-title text-black" : "modal-title "} id="exampleModalLabel">Customer Reviews</h5>
-                                                    <button type="button" className="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div className="modal-body">
-                                                    {loading && <Spinner />}
-                                                    {reviewsList.length < 1 ? <h4>No reviews yet</h4> :
-                                                        reviewsList.map((item, pos) => (
-                                                            <Review
-                                                                key={pos}
-                                                                _id={item._id}
-                                                                user={item.user}
-                                                                product={item.product}
-                                                                headline={item.headline}
-                                                                rating={item.rating}
-                                                                review={item.review}
-                                                                date={item.date}
-                                                            />
-                                                        ))
-                                                    }
-                                                </div>
+                                {/* <!-- Modal --> */}
+                                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div className="modal-dialog bg-dark">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h5 className={darkMode ? "modal-title text-black" : "modal-title "} id="exampleModalLabel">Customer Reviews</h5>
+                                                <button type="button" className="btn-close p-0 m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                {loading && <Spinner />}
+                                                {reviewsList.length < 1 ? <h4>No reviews yet</h4> :
+                                                    reviewsList.map((item, pos) => (
+                                                        <Review
+                                                            key={pos}
+                                                            _id={item._id}
+                                                            user={item.user}
+                                                            product={item.product}
+                                                            headline={item.headline}
+                                                            rating={item.rating}
+                                                            review={item.review}
+                                                            date={item.date}
+                                                        />
+                                                    ))
+                                                }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        )
-                    })}
-                </div>
+                        </div>
+                    )
+                })}
             </div>
-        </div>
+
+        </>
+
     )
 }
+
+export default Mobiles

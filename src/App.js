@@ -16,6 +16,13 @@ import Orders from './components/Orders';
 import Address from './components/Address';
 import { useState } from 'react';
 import LoadingBar from 'react-top-loading-bar';
+import Mobiles from './components/categories/Mobiles';
+import Computers from './components/categories/Computers';
+import MensFashion from './components/categories/MensFashion';
+import WomensFashion from './components/categories/WomensFashion';
+import Appliances from './components/categories/Appliances';
+import ToysAndGames from './components/categories/ToysAndGames';
+import Categories from './components/categories/Categories';
 
 
 const promise = loadStripe('pk_test_51KOQwtSG6G0QGYdvniwXXMSxH52jJnDWtVdl7L3pD9Mxh1C49HVgdfYDO793ELr84paLj2lZ7gZ3EhjBekKTmD1y00Dlpuw96s');
@@ -45,6 +52,13 @@ function App() {
                 <Payment setProgress={setProgress} />
               </Elements></>} />
           <Route exact path="/basket" element={<><Navbar setProgress={setProgress} /><Basket setProgress={setProgress} /></>} />
+          <Route exact path="/mobiles" element={<><Navbar setProgress={setProgress} /><Mobiles setProgress={setProgress} /></>} />
+          <Route exact path="/computers" element={<><Navbar setProgress={setProgress} /><Computers setProgress={setProgress} /></>} />
+          <Route exact path="/mensFashion" element={<><Navbar setProgress={setProgress} /><MensFashion setProgress={setProgress} /></>} />
+          <Route exact path="/womensFashion" element={<><Navbar setProgress={setProgress} /><WomensFashion setProgress={setProgress} /></>} />
+          <Route exact path="/appliances" element={<><Navbar setProgress={setProgress} /><Appliances setProgress={setProgress} /></>} />
+          <Route exact path="/toysAndGames" element={<><Navbar setProgress={setProgress} /><ToysAndGames setProgress={setProgress} /></>} />
+          <Route exact path="/categories" element={<><Navbar setProgress={setProgress} /><Categories setProgress={setProgress} /></>} />
         </Routes>
       </Router>
     </div>

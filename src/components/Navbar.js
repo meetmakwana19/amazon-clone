@@ -176,6 +176,30 @@ function Navbar(props) {
         }
     }
 
+    const handleOnMobile = () => {
+        navigate("/mobiles")
+    }
+    const handleOnComputers = () => {
+        navigate("/computers")
+    }
+    const handleOnMensFashion = () => {
+        navigate("/mensFashion")
+    }
+    const handleOnWomensFashion = () => {
+        navigate("/womensFashion")
+    }
+    const handleOnAppliances = () => {
+        navigate("/appliances")
+    }
+    const handleOnToysGames = () => {
+        navigate("/toysAndGames")
+    }
+    const handleOnLi = () => {
+        props.setProgress(40);
+        navigate("/categories")
+        props.setProgress(100);
+    }
+
     return (
         <>
             <div className='header navbar ' style={{ backgroundColor: "#121921", height: "3.75rem", color: "white" }}>
@@ -239,20 +263,21 @@ function Navbar(props) {
                     <ul>
                         <li type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><MenuIcon className='menu-icon' /> All</li>
 
-                        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                            <div class="offcanvas-header" style={{ backgroundColor: "#232f3f" }}>
-                                <h5 class="offcanvas-title" id="offcanvasExampleLabel"><AccountCircleIcon style={{ fontSize: 'xx-large', color: "" }} /> Hello, {user ? user.split(" ")[0] : "Guest"}</h5>
-                                <button type="button" class="btn-close text-reset btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                            <div className="offcanvas-header" style={{ backgroundColor: "#232f3f" }}>
+                                <h5 className="offcanvas-title" id="offcanvasExampleLabel"><AccountCircleIcon style={{ fontSize: 'xx-large', color: "" }} /> Hello, {user ? user.split(" ")[0] : "Guest"}</h5>
+                                <button type="button" className="btn-close text-reset btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
-                            <div class={darkMode ? "offcanvas-body text-black p-0 bg-dark text-white " : "offcanvas-body text-black p-0"} id='offcanvas-items'>
+                            <div className={darkMode ? "offcanvas-body text-black p-0 bg-dark text-white " : "offcanvas-body text-black p-0"} id='offcanvas-items'>
                                 <div>
                                     <h4 style={{ padding: "0 30px", paddingTop: "30px" }}><b>Shop by department</b></h4>
                                     <ul id={darkMode ? 'offcanvas-items-ul-dark' : 'offcanvas-items-ul'}>
-                                        <li type="button">Mobile, Computers</li>
-                                        <li type="button">TV, Appliances, Electronics</li>
-                                        <li type="button">Men's Fashion</li>
-                                        <li type="button">Women's Fashion</li>
-                                        <li type="button">Toys & Games</li>
+                                        <li type="button" onClick={handleOnMobile}>Mobiles</li>
+                                        <li type="button" onClick={handleOnComputers}>Computers</li>
+                                        <li type="button" onClick={handleOnAppliances}>Home Appliances</li>
+                                        <li type="button" onClick={handleOnMensFashion}>Men's Fashion</li>
+                                        <li type="button" onClick={handleOnWomensFashion}>Women's Fashion</li>
+                                        <li type="button" onClick={handleOnToysGames}>Toys & Games</li>
                                     </ul>
                                 </div>
                                 <div>
@@ -268,7 +293,7 @@ function Navbar(props) {
                         {data.map((item, pos) => {
                             return (
                                 <div key={pos}>
-                                    <li type="button">{item.name}</li>
+                                    <li onClick={handleOnLi} type="button">{item.name}</li>
                                 </div>
                             )
                         })}

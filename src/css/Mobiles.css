@@ -1,0 +1,7 @@
+.row {
+    place-items: center;
+    display: flex;
+    margin-left: 100px;
+    margin-top: 400px;
+    color: black;
+}
