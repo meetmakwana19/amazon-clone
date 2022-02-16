@@ -192,7 +192,7 @@ export default function Home(props) {
             <Carousel />
             <div className="sub-home">
                 <div className="row">
-                    {data.map((item, pos) => {
+                    {data.slice(0, 3).map((item, pos) => {
                         return (
                             <div className='col-md-4' key={pos}>
                                 <div className={darkMode ? "card-item bg-dark border-light text-white" : "card-item"}>
