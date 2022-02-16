@@ -213,7 +213,7 @@ export default function Home(props) {
                                         <p className='sellPrice-p'>{item.sellPrice}</p>
                                         <p className='mrp'>₹{item.mrp}</p>
                                     </p>
-                                    <img id='prime-logo' src="https://seeklogo.com/images/A/amazon-prime-icon-logo-484A50E84F-seeklogo.com.png" width="42" height="12" alt="" />
+                                    {item.isPrime ? <img id='prime-logo' src="https://seeklogo.com/images/A/amazon-prime-icon-logo-484A50E84F-seeklogo.com.png" width="42" height="12" alt="" /> : null}
                                     <button className={darkMode ? "bg-dark" : null} onClick={() => { handleOnAddToCart(item._id) }} type="button">Add to Basket</button>
 
                                     {/* <!-- Modal --> */}
