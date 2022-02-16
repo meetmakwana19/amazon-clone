@@ -170,7 +170,7 @@ export default function OrderedProduct(props) {
                                 {/* <!-- Modal --> */}
                                 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div className={darkMode ? "modal-dialog text-dark" : "modal-dialog"}>
-                                        <div className="modal-content">
+                                        <div className={darkMode ? "modal-content bg-dark text-white" : "modal-content"}>
                                             <div className="modal-header">
                                                 <h3 className="modal-title" id="exampleModalLabel">Create review</h3>
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -178,16 +178,16 @@ export default function OrderedProduct(props) {
                                             <div className="modal-body">
                                                 <form action='submit' id='review-form'>
                                                     <div className="mb-3">
-                                                        <label htmlFor="exampleInputEmail1" className="form-label">Overrall rating <Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /> </label>
-                                                        <input type="number" step="any" className="form-control" id="rating" onChange={onChange} />
+                                                        <label htmlFor="exampleInputEmail1" className="form-label">Overrall rating <span style={{ color: "red", fontWeight: "bolder" }}>*</span> <Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /> </label>
+                                                        <input type="number" step="any" className={darkMode ? "form-control bg-dark text-white" : "form-control"} id="rating" onChange={onChange} />
                                                     </div>
                                                     <div className="mb-3">
-                                                        <label htmlFor="exampleInputEmail1" className="form-label">Add a headline</label>
-                                                        <input type="text" className="form-control" id="headline" onChange={onChange} />
+                                                        <label htmlFor="exampleInputEmail1" className="form-label">Add a headline <span style={{ color: "red", fontWeight: "bolder" }}>*</span></label>
+                                                        <input type="text" className={darkMode ? "form-control bg-dark text-white" : "form-control"} id="headline" onChange={onChange} />
                                                     </div>
                                                     <div className="mb-3">
-                                                        <label htmlFor="exampleInputEmail1" className="form-label">Write review</label>
-                                                        <textarea className="form-control" id='review' onChange={onChange}></textarea>
+                                                        <label htmlFor="exampleInputEmail1" className="form-label">Write review <span style={{ color: "red", fontWeight: "bolder" }}>*</span></label>
+                                                        <textarea className={darkMode ? "form-control bg-dark text-white" : "form-control"} id='review' onChange={onChange}></textarea>
                                                     </div>
                                                 </form>
                                             </div>
