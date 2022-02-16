@@ -195,7 +195,7 @@ export default function Home(props) {
                     {data.slice(0, 3).map((item, pos) => {
                         return (
                             <div className='col-md-4' key={pos}>
-                                <div className={darkMode ? "card-item bg-dark border-light text-white" : "card-item"}>
+                                <div className={darkMode ? "card-item bg-dark border-light text-white shadow-lg p-3 mb-5 " : "card-item shadow-lg p-3 mb-5 bg-white "}>
                                     <img src={item.productImage} alt="" className='productImage' />
                                     <p className="card-item-name">{item.name}</p>
                                     <div className="rating">
