@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import "../css/Carousel.css"
 import Cards from './Cards'
 
 export default function Carousel() {
 
     const [banner, setBanner] = useState([]);
-    const navigate = useNavigate();
 
     // An API must be called in useEffect() hook in rfc
     useEffect(() => {
@@ -26,10 +24,6 @@ export default function Carousel() {
                 }
             })
         })
-    }
-
-    const handleonElectronics = () => {
-        navigate("/computers")
     }
 
     return (
@@ -65,7 +59,7 @@ export default function Carousel() {
             <div className="cards">
 
                 {/* passing props along with the Crads. */}
-                <Cards className="card-item" title="Up to 70% off | Electronics clearance store" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img21/CEPC/Clearance/May21/V238940049_IN_PC_BAU_Edit_Creation_Laptops1x._SY304_CB667377205_.jpg" btnText="See more" onClick={handleonElectronics} />
+                <Cards className="card-item" title="Win in a scratch card daily" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/AmazonPay/Rewards/GWBTFPercolateCards/PC_Category_Card_379x304_Jan22._SY304_CB647732771_.jpg" btnText="See more" />
 
                 <Cards className="card-item" title="Pay your credit card bills on Amazon" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img19/AmazonPay/Boson/Sid/CCBP/DesktopGateway_CategoryCard_379x304_CCBP._SY304_CB413372299_.jpg" btnText="Pay now" linkedToUrl="https://www.amazon.in/gp/help/customer/display.html?nodeId=GKLD2EQBY7FA7KFH" />
 
