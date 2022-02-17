@@ -1,4 +1,6 @@
 .orders-page {
     margin: 50px auto;
     width: 70%;
+    display: flex;
+    flex-direction: column;
 }

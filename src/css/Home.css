@@ -7,6 +7,10 @@
     flex-direction: column;
 }
 
+.sub-home {
+    height: 80vh;
+}
+
 .row {
     /* display: grid; */
     place-items: center;

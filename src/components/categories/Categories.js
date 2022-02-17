@@ -9,8 +9,7 @@ function Categories(props) {
     })
 
     return (
-        <div className='container' style={{ marginTop: "75px" }}>
-            {/* <span>Under development</span> */}
+        <div className='container' style={{ marginTop: "75px", minHeight: "50vh" }}>
             <ConstructionDev />
 
             <div className="text-center">
