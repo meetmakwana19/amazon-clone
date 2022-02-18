@@ -59,7 +59,7 @@ export default function Carousel() {
             <div className="cards">
 
                 {/* passing props along with the Crads. */}
-                <Cards className="card-item" title="Win in a scratch card daily" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/AmazonPay/Rewards/GWBTFPercolateCards/PC_Category_Card_379x304_Jan22._SY304_CB647732771_.jpg" btnText="See more" />
+                <Cards className="card-item" title="Win in a scratch card daily" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/AmazonPay/Rewards/GWBTFPercolateCards/PC_Category_Card_379x304_Jan22._SY304_CB647732771_.jpg" btnText="See more" linkedToUrl="https://www.amazon.in/ref=gw_perc_pc/b?node=18468102031&pf_rd_r=96GDAQP0226J1BNH5FZC&pf_rd_p=619ed254-23a1-4dca-a233-10d828bf10ac&pd_rd_r=95f138e2-559e-4a67-95d3-7dc52978dc34&pd_rd_w=vS89q&pd_rd_wg=tL2hp&ref_=pd_gw_unk" />
 
                 <Cards className="card-item" title="Pay your credit card bills on Amazon" cardImg="https://images-eu.ssl-images-amazon.com/images/G/31/img19/AmazonPay/Boson/Sid/CCBP/DesktopGateway_CategoryCard_379x304_CCBP._SY304_CB413372299_.jpg" btnText="Pay now" linkedToUrl="https://www.amazon.in/gp/help/customer/display.html?nodeId=GKLD2EQBY7FA7KFH" />
 
