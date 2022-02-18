@@ -97,7 +97,7 @@ export default function SignUp(props) {
                     <input className={darkMode ? 'bg-secondary text-white' : null} type="text" value={credentials.email} onChange={onChange} id='email' />
                     <h6>Password <span style={{ color: "red", fontWeight: "bolder" }}>*</span></h6>
                     <input className={darkMode ? 'bg-secondary text-white' : null} type="password" value={credentials.password} onChange={onChange} id='password' />
-                    <div id="emailHelp" class="form-text">Password must be of minimum 5 characters.</div>
+                    <div id="emailHelp" class="form-text">Password must be of minimum 6 characters.</div>
 
                     <button disabled={credentials.name.length < 3 || credentials.email.length < 5 || credentials.password.length < 6} className='signin-btn' onClick={onSignUp}>Sign-up</button>
 
