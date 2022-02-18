@@ -15,11 +15,19 @@ export default function OrderedProduct(props) {
     const [reviews, setReviews] = useState({ rating: "", headline: "", review: "" })
     const navigate = useNavigate();
     const refClose = useRef(null)
+    const [productNAME, setProductNAME] = useState("")
 
     const onChange = (e) => {
         setReviews({ ...reviews, [e.target.id]: e.target.value })
     }
 
+    const onReview = async (id) => {
+        const url = `https://amizon-api.herokuapp.com/products/${id}`
+        let data = await fetch(url);
+        let product = await data.json()
+        const name = product.name;
+        setProductNAME(name)
+    }
     // on Review submit
     const onSubmit = async (e) => {
 
@@ -163,7 +171,7 @@ export default function OrderedProduct(props) {
                                 <button onClick={handleOnBuy} className='buyAgain-btn'><FlipCameraAndroidIcon style={{ fontSize: 'medium' }} /> Buy it again</button>
 
                                 {/* <!-- Button trigger modal --> */}
-                                <button type="button" className="btn btn-light px-4" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                                <button type="button" className="btn btn-light px-4" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => onReview(props.product_id)}>
                                     Write product review
                                 </button>
 
@@ -172,12 +180,13 @@ export default function OrderedProduct(props) {
                                     <div className={darkMode ? "modal-dialog text-dark" : "modal-dialog"}>
                                         <div className={darkMode ? "modal-content bg-dark text-white" : "modal-content"}>
                                             <div className="modal-header">
-                                                <h3 className="modal-title" id="exampleModalLabel">Create review</h3>
+                                                <h3 className="modal-title" id="exampleModalLabel text-left">Create review for {productNAME.split(" ").slice(0, 3).join(" ")}....</h3>
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
                                                 <form action='submit' id='review-form'>
-                                                    <div className="mb-3">
+                                                    <small className='text-danger'>Review of only the 1st product of the order will be posted(Apologies for this bug, bug will be fixed soon)</small>
+                                                    <div className="mb-3 mt-3">
                                                         <label htmlFor="exampleInputEmail1" className="form-label">Overrall rating <span style={{ color: "red", fontWeight: "bolder" }}>*</span> <Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /> </label>
                                                         <input type="number" step="any" className={darkMode ? "form-control bg-dark text-white" : "form-control"} id="rating" onChange={onChange} />
                                                     </div>
