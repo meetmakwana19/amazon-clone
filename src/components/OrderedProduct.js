@@ -5,31 +5,44 @@ import { useStateValue } from '../context/cart-count/CartStateContext';
 import themeContext from '../context/theme/ThemeContext';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useNavigate } from 'react-router-dom';
-
+import Spinner from './Spinner';
 import Star from '@mui/icons-material/Star';
 
 export default function OrderedProduct(props) {
 
-    const [{ address }, dispatch] = useStateValue();
+    const [{ address, orderProductId, orderProductName }, dispatch] = useStateValue();
     const { darkMode } = useContext(themeContext);
     const [reviews, setReviews] = useState({ rating: "", headline: "", review: "" })
     const navigate = useNavigate();
     const refClose = useRef(null)
-    const [productNAME, setProductNAME] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const onChange = (e) => {
         setReviews({ ...reviews, [e.target.id]: e.target.value })
     }
 
     const onReview = async (id) => {
+        // console.log("Current product id - ", props.product_id);
+        setLoading(true)
         const url = `https://amizon-api.herokuapp.com/products/${id}`
         let data = await fetch(url);
         let product = await data.json()
         const name = product.name;
-        setProductNAME(name)
+        // console.log("name is", name);
+        dispatch({
+            type: "SET_PRODUCT_ID",
+            orderProductId: props.product_id
+        })
+        dispatch({
+            type: "SET_PRODUCT_NAME",
+            orderProductName: name
+        })
+        setLoading(false)
+        // console.log("orderProductName ", orderProductName);
     }
     // on Review submit
     const onSubmit = async (e) => {
+        // console.log("setProductID osubmit", orderProductId);
 
         // console.log("product id review-", id);
         e.preventDefault()
@@ -42,7 +55,7 @@ export default function OrderedProduct(props) {
                 'auth-token': localStorage.getItem("token")
             },
             body: JSON.stringify({
-                product: props.product_id,
+                product: orderProductId,
                 rating: reviews.rating,
                 headline: reviews.headline,
                 review: reviews.review
@@ -120,7 +133,7 @@ export default function OrderedProduct(props) {
     }
 
     const handleOnRemove = async () => {
-        console.log("id of order is", props._id);
+        // console.log("id of order is", props._id);
         const orderID = props._id;
         props.setProgress(30);
         const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmedOrder/${orderID}`, {
@@ -180,12 +193,11 @@ export default function OrderedProduct(props) {
                                     <div className={darkMode ? "modal-dialog text-dark" : "modal-dialog"}>
                                         <div className={darkMode ? "modal-content bg-dark text-white" : "modal-content"}>
                                             <div className="modal-header">
-                                                <h3 className="modal-title" id="exampleModalLabel text-left">Create review for {productNAME.split(" ").slice(0, 3).join(" ")}....</h3>
+                                                <h3 className="modal-title" id="exampleModalLabel text-left">Create review for {loading && <Spinner />} {orderProductName.split(" ").slice(0, 3).join(" ")}....</h3>
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
                                                 <form action='submit' id='review-form'>
-                                                    <small className='text-danger'>Review of only the 1st product of the order will be posted(Apologies for this bug, bug will be fixed soon)</small>
                                                     <div className="mb-3 mt-3">
                                                         <label htmlFor="exampleInputEmail1" className="form-label">Overrall rating <span style={{ color: "red", fontWeight: "bolder" }}>*</span> <Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /><Star style={{ color: "#fed813" }} /> </label>
                                                         <input type="number" step="any" className={darkMode ? "form-control bg-dark text-white" : "form-control"} id="rating" onChange={onChange} />
