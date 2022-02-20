@@ -6,6 +6,8 @@ export const initialState = {
     user: "",
     address: "",
     user_id: "",
+    orderProductId: "",
+    orderProductName: "",
 };
 
 // to tally up all the item sellprices in a fancy way- SELECTOR
@@ -30,7 +32,17 @@ const reducer = (state, action) => {
             // console.log("address reduces", action);
             return {
                 ...state,
-                address: action.address //updated user from the action dispatched from component like `SignIn.js`
+                address: action.address
+            }
+        case "SET_PRODUCT_ID":
+            return {
+                ...state,
+                orderProductId: action.orderProductId
+            }
+        case "SET_PRODUCT_NAME":
+            return {
+                ...state,
+                orderProductName: action.orderProductName
             }
         case "ADD_TO_CART":
             // console.log("add to cart action");
@@ -43,36 +55,30 @@ const reducer = (state, action) => {
             // console.log("fill to cart action");
             return {
                 ...state,
-                // return the state as it is in addition to some updates in the "cart"
                 filledCart: [...state.filledCart, action.item]
             };
         case "FILL_ORDER_HISTORY":
             return {
                 ...state,
-                // return the state as it is in addition to some updates in the "cart"
                 orderHistory: [...state.orderHistory, action.item]
             };
         case "FILL_REVIEW":
             return {
                 ...state,
-                // return the state as it is in addition to some updates in the "cart"
                 reviewsList: [...state.reviewsList, action.item]
             };
         case "EMPTY_REVIEW":
-            // console.log("Emptying cart");
             return {
                 ...state,
                 reviewsList: [],
             }
         case "EMPTY_CART":
-            // console.log("Emptying cart");
             return {
                 ...state,
                 cart: [],
                 filledCart: [],
             }
         case "EMPTY_ORDERS":
-            // console.log("Emptying cart");
             return {
                 ...state,
                 orderHistory: []
