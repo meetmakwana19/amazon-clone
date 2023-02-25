@@ -9,6 +9,8 @@ import Review from './Review';
 import Spinner from './Spinner';
 var moment = require('moment-timezone');
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function Home(props) {
     const [data, setData] = useState([])
     const { darkMode } = useContext(themeContext);
@@ -21,7 +23,7 @@ export default function Home(props) {
 
     // FOR NAV-CART COUNT
     const getAllOrders = async () => {
-        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
+        const response = await fetch(`${ROOT_URL}/order/orderedProducts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -32,7 +34,7 @@ export default function Home(props) {
         for (let i = 0; i < parsedObject.length; i++) {
             const orderId = parsedObject[i]._id
             const id = parsedObject[i].orderedItem
-            const url = `https://amizon-api.herokuapp.com/products/${id}`
+            const url = `${ROOT_URL}/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
             dispatch({
@@ -62,14 +64,14 @@ export default function Home(props) {
 
         else {
             props.setProgress(10);
-            const url = `https://amizon-api.herokuapp.com/products/${id}`
+            const url = `${ROOT_URL}/products/${id}`
             let data = await fetch(url);
             let oldparsedObject = await data.json()
             props.setProgress(30);
 
             try {
                 props.setProgress(40);
-                const response = await fetch(`https://amizon-api.herokuapp.com/order/placeOrder`, {
+                const response = await fetch(`${ROOT_URL}/order/placeOrder`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -108,7 +110,7 @@ export default function Home(props) {
     // FOR ADDRESS COMPONENT 
     const getAddress = async () => {
         // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
+        const response = await fetch(`${ROOT_URL}/auth/getUser`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,12 +130,15 @@ export default function Home(props) {
         props.setProgress(10);
 
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
-        fetch("https://amizon-api.herokuapp.com/products").then((result) => {
+        // fetch(`http://localhost:8080/products`).then((result) => {
+        fetch(`${ROOT_URL}/products`).then((result) => {
             props.setProgress(30);
             // even on converting the result, it returns a promise which is to be handles by "then"
+            console.log("Testng API ")
             result.json().then((resp) => {
+                console.log("Testng API again ")
                 props.setProgress(60);
-                // console.log("Response from API is : " + resp)
+                console.log("Response from API is : " + resp)
                 setData(resp)
                 props.setProgress(100);
                 console.log("Response from API :", resp);
@@ -145,7 +150,7 @@ export default function Home(props) {
         dispatch({ type: "EMPTY_REVIEW" })
 
         // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/review/product/${id}`, {
+        const response = await fetch(`${ROOT_URL}/review/product/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -162,7 +167,7 @@ export default function Home(props) {
             let reviewDate = jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY');
 
             const userID = resp[i].user;
-            const response2 = await fetch(`https://amizon-api.herokuapp.com/auth/getUsername/${userID}`, {
+            const response2 = await fetch(`${ROOT_URL}/auth/getUsername/${userID}`, {
                 method: 'GET',
             });
             const resp2 = await response2.json();

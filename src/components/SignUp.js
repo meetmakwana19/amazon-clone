@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import themeContext from '../context/theme/ThemeContext';
 import { useStateValue } from '../context/cart-count/CartStateContext';
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function SignUp(props) {
 
     const { darkMode } = useContext(themeContext);
@@ -25,7 +27,7 @@ export default function SignUp(props) {
         // remove them out from credentials using destructuring
         const { name, email, password } = credentials;
         // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/auth/createUser`, {
+        const response = await fetch(`${ROOT_URL}/auth/createUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +48,7 @@ export default function SignUp(props) {
             const getUser = async () => {
                 // console.log("Getting user details");
                 // API Call
-                const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
+                const response = await fetch(`${ROOT_URL}/auth/getUser`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

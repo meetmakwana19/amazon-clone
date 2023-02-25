@@ -8,6 +8,8 @@ import StarRatings from 'react-star-ratings';
 import Review from '../Review';
 var moment = require('moment-timezone');
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 function Mobiles(props) {
     const [data, setData] = useState([])
     const { darkMode } = useContext(themeContext);
@@ -16,7 +18,7 @@ function Mobiles(props) {
     const navigate = useNavigate();
 
     const getAllOrders = async () => {
-        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
+        const response = await fetch(`${ROOT_URL}/order/orderedProducts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,7 +29,7 @@ function Mobiles(props) {
         for (let i = 0; i < parsedObject.length; i++) {
             const orderId = parsedObject[i]._id
             const id = parsedObject[i].orderedItem
-            const url = `https://amizon-api.herokuapp.com/products/${id}`
+            const url = `${ROOT_URL}/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
             dispatch({
@@ -57,14 +59,14 @@ function Mobiles(props) {
 
         else {
             props.setProgress(10);
-            const url = `https://amizon-api.herokuapp.com/products/${id}`
+            const url = `${ROOT_URL}/products/${id}`
             let data = await fetch(url);
             let oldparsedObject = await data.json()
             props.setProgress(30);
 
             try {
                 props.setProgress(40);
-                const response = await fetch(`https://amizon-api.herokuapp.com/order/placeOrder`, {
+                const response = await fetch(`${ROOT_URL}/order/placeOrder`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -104,7 +106,7 @@ function Mobiles(props) {
 
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
         const categoryID = "61ec6358a4fed048d2d9e960"
-        fetch(`https://amizon-api.herokuapp.com/categories/${categoryID}/products`).then((result) => {
+        fetch(`${ROOT_URL}/categories/${categoryID}/products`).then((result) => {
             props.setProgress(30);
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
@@ -121,7 +123,7 @@ function Mobiles(props) {
         dispatch({ type: "EMPTY_REVIEW" })
 
         // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/review/product/${id}`, {
+        const response = await fetch(`${ROOT_URL}/review/product/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -138,7 +140,7 @@ function Mobiles(props) {
             let reviewDate = jun.tz('Asia/Kolkata').format('ddd DD MMMM YYYY');
 
             const userID = resp[i].user;
-            const response2 = await fetch(`https://amizon-api.herokuapp.com/auth/getUsername/${userID}`, {
+            const response2 = await fetch(`${ROOT_URL}/auth/getUsername/${userID}`, {
                 method: 'GET',
             });
             const resp2 = await response2.json();

@@ -6,6 +6,8 @@ import "../css/Basket.css"
 import CartProduct from './CartProduct';
 import SubTotal from './SubTotal';
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function Basket(props) {
 
     const { darkMode } = useContext(themeContext);
@@ -27,7 +29,7 @@ export default function Basket(props) {
 
             dispatch({ type: "EMPTY_CART" })
             props.setProgress(20);
-            const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
+            const response = await fetch(`${ROOT_URL}/order/orderedProducts`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,7 +48,7 @@ export default function Basket(props) {
                 // console.log("Ordered id of user", parsedObject[i]._id);
                 const orderId = parsedObject[i]._id
                 const id = parsedObject[i].orderedItem
-                const url = `https://amizon-api.herokuapp.com/products/${id}`
+                const url = `${ROOT_URL}/products/${id}`
                 let data = await fetch(url);
                 let product = await data.json()
                 props.setProgress(50);

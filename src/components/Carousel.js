@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import "../css/Carousel.css"
 import Cards from './Cards'
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function Carousel() {
 
     const [banner, setBanner] = useState([]);
@@ -15,7 +17,7 @@ export default function Carousel() {
 
     function getBanners() {
         // this api data returns a promise and it is handled with "then" on success and "then" will afterwards resolve that promise
-        fetch("https://amizon-api.herokuapp.com/banner").then((result) => {
+        fetch(`${ROOT_URL}/banner`).then((result) => {
             // even on converting the result, it returns a promise which is to be handles by "then"
             result.json().then((resp) => {
                 setBanner(resp)

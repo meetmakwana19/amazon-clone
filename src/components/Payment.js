@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { getCartTotal } from '../state/reducers/reducer';
 import { useNavigate } from 'react-router-dom';
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function Payment(props) {
 
     const [{ cart, filledCart, user, address }, dispatch] = useStateValue();
@@ -37,7 +39,7 @@ export default function Payment(props) {
 
             try {
                 props.setProgress(30);
-                const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmOrder`, {
+                const response = await fetch(`${ROOT_URL}/order/confirmOrder`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -69,7 +71,7 @@ export default function Payment(props) {
         for (let i = 0; i < filledCart.length; i++) {
             const orderId = filledCart[i].order_id
             console.log("filledcart ids", orderId);
-            const response = await fetch(`https://amizon-api.herokuapp.com/order/${orderId}`, {
+            const response = await fetch(`${ROOT_URL}/order/${orderId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

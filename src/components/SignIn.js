@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/cart-count/CartStateContext';
 import themeContext from '../context/theme/ThemeContext';
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function SignIn(props) {
 
     const { darkMode } = useContext(themeContext);
@@ -22,7 +24,7 @@ export default function SignIn(props) {
         e.preventDefault()
         props.setProgress(80);
         // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/auth/login`, {
+        const response = await fetch(`${ROOT_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +47,7 @@ export default function SignIn(props) {
 
                 // console.log("Getting user details");
                 // API Call
-                const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
+                const response = await fetch(`${ROOT_URL}/auth/getUser`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

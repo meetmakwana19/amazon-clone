@@ -4,6 +4,8 @@ import { useStateValue } from '../context/cart-count/CartStateContext';
 import themeContext from '../context/theme/ThemeContext';
 import '../css/Address.css';
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function Address() {
 
     const { darkMode } = useContext(themeContext);
@@ -25,7 +27,7 @@ export default function Address() {
 
     const onDone = async (e) => {
         e.preventDefault()
-        const response = await fetch(`https://amizon-api.herokuapp.com/auth/updateUser`, {
+        const response = await fetch(`${ROOT_URL}/auth/updateUser`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +43,7 @@ export default function Address() {
 
     const getAddress = async () => {
         // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/auth/getUser`, {
+        const response = await fetch(`${ROOT_URL}/auth/getUser`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

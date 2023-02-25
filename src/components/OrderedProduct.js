@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from './Spinner';
 import Star from '@mui/icons-material/Star';
 
+const ROOT_URL = process.env.REACT_APP_ROOT_URL
+
 export default function OrderedProduct(props) {
 
     const [{ address, orderProductId, orderProductName }, dispatch] = useStateValue();
@@ -24,7 +26,7 @@ export default function OrderedProduct(props) {
     const onReview = async (id) => {
         // console.log("Current product id - ", props.product_id);
         setLoading(true)
-        const url = `https://amizon-api.herokuapp.com/products/${id}`
+        const url = `${ROOT_URL}/products/${id}`
         let data = await fetch(url);
         let product = await data.json()
         const name = product.name;
@@ -48,7 +50,7 @@ export default function OrderedProduct(props) {
         e.preventDefault()
         props.setProgress(30);
         // API Call
-        const response = await fetch(`https://amizon-api.herokuapp.com/review/placereview`, {
+        const response = await fetch(`${ROOT_URL}/review/placereview`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ export default function OrderedProduct(props) {
     // FOR NAV CART COUNT
     const getAllOrders = async () => {
         dispatch({ type: "EMPTY_CART" })
-        const response = await fetch(`https://amizon-api.herokuapp.com/order/orderedProducts`, {
+        const response = await fetch(`${ROOT_URL}/order/orderedProducts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,7 +90,7 @@ export default function OrderedProduct(props) {
         for (let i = 0; i < parsedObject.length; i++) {
             const orderId = parsedObject[i]._id
             const id = parsedObject[i].orderedItem
-            const url = `https://amizon-api.herokuapp.com/products/${id}`
+            const url = `${ROOT_URL}/products/${id}`
             let data = await fetch(url);
             let product = await data.json()
             dispatch({
@@ -112,7 +114,7 @@ export default function OrderedProduct(props) {
 
     const handleOnBuy = async () => {
         props.setProgress(30);
-        const response = await fetch(`https://amizon-api.herokuapp.com/order/placeOrder`, {
+        const response = await fetch(`${ROOT_URL}/order/placeOrder`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -136,7 +138,7 @@ export default function OrderedProduct(props) {
         // console.log("id of order is", props._id);
         const orderID = props._id;
         props.setProgress(30);
-        const response = await fetch(`https://amizon-api.herokuapp.com/order/confirmedOrder/${orderID}`, {
+        const response = await fetch(`${ROOT_URL}/order/confirmedOrder/${orderID}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
